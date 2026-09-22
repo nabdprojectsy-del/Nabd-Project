@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشروع نبض المسرحي المستقل | Nabd Theatre Project</title>
+  
+  <!-- Google Fonts: Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #1B1512;
+      --bg-card: #261E1A;
+      --accent-red: #EC1C24;
+      --accent-blue: #00ADEE;
+      --paper-beige: #EDE3D0;
+      --text-light: #F7F5F0;
+      --text-muted: #A89F91;
+      --border-color: rgba(237, 227, 208, 0.15);
+      --font-cairo: 'Cairo', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-cairo);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-red);
+      border-radius: 4px;
+    }
+
+    /* Header & Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(27, 21, 18, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1.5rem;
+    }
+
+    .logo-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--paper-beige);
+    }
+
+    .logo-pulse-svg {
+      width: 140px;
+      height: 38px;
+    }
+
+    .slogan-tag {
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border-right: 2px solid var(--accent-red);
+      padding-right: 10px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    nav ul li a {
+      color: var(--paper-beige);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      padding: 5px 0;
+    }
+
+    nav ul li a:hover, nav ul li a.active {
+      color: var(--accent-red);
+    }
+
+    nav ul li a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--accent-red);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--paper-beige);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Page Section Management */
+    .page-section {
+      display: none;
+      padding-top: 90px;
+      min-height: calc(100vh - 90px);
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Banner */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, rgba(27,21,18,0.92) 0%, rgba(38,30,26,0.95) 100%),
+                  url('https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1600&q=80') center/cover;
+      padding: 4.5rem 1.5rem 3.5rem;
+      text-align: center;
+      border-bottom: 2px solid var(--accent-red);
+    }
+
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: var(--paper-beige);
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    }
+
+    .hero-slogan {
+      font-size: 1.7rem;
+      color: var(--accent-red);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-desc {
+      max-width: 850px;
+      margin: 0 auto 2rem;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 400;
+      line-height: 1.8;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.8rem 1.8rem;
+      border-radius: 6px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-family: var(--font-cairo);
+    }
+
+    .btn-red {
+      background-color: var(--accent-red);
+      color: #fff;
+    }
+    .btn-red:hover {
+      background-color: #c4131a;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(236, 28, 36, 0.4);
+    }
+
+    .btn-outline {
+      border: 2px solid var(--paper-beige);
+      color: var(--paper-beige);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: var(--paper-beige);
+      color: var(--bg-dark);
+    }
+
+    /* Featured Show Card */
+    .show-card-featured {
+      max-width: 1100px;
+      margin: 3rem auto;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .show-poster-box {
+      background: #110d0b;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .show-poster-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      border: 1px solid rgba(237, 227, 208, 0.2);
+    }
+
+    .show-info-box {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .badge-live {
+      align-self: flex-start;
+      background: rgba(0, 173, 238, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid var(--accent-blue);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .show-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--paper-beige);
+      margin-bottom: 0.5rem;
+    }
+
+    .show-venue {
+      font-size: 1.1rem;
+      color: var(--accent-red);
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .show-meta-details {
+      margin-bottom: 1.5rem;
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .booking-notice-box {
+      background: rgba(236, 28, 36, 0.1);
+      border-right: 4px solid var(--accent-red);
+      padding: 1.2rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+
+    .booking-notice-box p {
+      color: var(--paper-beige);
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    /* Section Titles */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--paper-beige);
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--accent-red);
+      margin: 10px auto 0;
+    }
+
+    /* Characters Poster Grid */
+    .cast-grid-section {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .poster-3d-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      background: #110d0a;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid rgba(237, 227, 208, 0.2);
+    }
+
+    .cell-box {
+      background: #231b17;
+      border: 1px solid rgba(237, 227, 208, 0.15);
+      border-radius: 6px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .cell-box:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-blue);
+    }
+
+    .cell-role {
+      background: var(--paper-beige);
+      color: var(--bg-dark);
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .cell-actor {
+      color: var(--text-light);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Cultural Section */
+    .cultural-section {
+      background: #211915;
+      padding: 4rem 1.5rem;
+      margin-top: 3rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .container-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .culture-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .culture-text h3 {
+      font-size: 1.8rem;
+      color: var(--accent-blue);
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+
+    .culture-text p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    /* Gallery Page */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--bg-card);
+      color: var(--paper-beige);
+      border: 1px solid var(--border-color);
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: var(--font-cairo);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--accent-red);
+      color: #fff;
+      border-color: var(--accent-red);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      aspect-ratio: 4/3;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(27,21,18,0.9) 0%, transparent 70%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 15px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-cat {
+      font-size: 0.75rem;
+      color: var(--accent-blue);
+      font-weight: 700;
+    }
+
+    .gallery-title {
+      font-size: 1rem;
+      color: var(--paper-beige);
+      font-weight: 700;
+    }
+
+    /* Shows Archive Section */
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 2rem;
+    }
+
+    .archive-card {
+      background: var(--bg-card);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease;
+    }
+
+    .archive-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-blue);
+    }
+
+    .archive-card h4 {
+      font-size: 1.5rem;
+      color: var(--paper-beige);
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+
+    .archive-venue {
+      color: var(--accent-blue);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    /* About Cards Grid */
+    .about-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 2rem;
+    }
+
+    .about-box {
+      background: var(--bg-card);
+      padding: 1.8rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .about-box h4 {
+      color: var(--paper-beige);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .about-box h4 i {
+      color: var(--accent-red);
+    }
+
+    /* Table Design for Structure */
+    .org-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      background: var(--bg-card);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .org-table th, .org-table td {
+      padding: 14px 16px;
+      text-align: right;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .org-table th {
+      background: rgba(236, 28, 36, 0.15);
+      color: var(--paper-beige);
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .org-table td {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .org-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Social Bar & Careers */
+    .social-links-bar {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .social-icon-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--paper-beige);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-icon-btn:hover {
+      background: var(--accent-red);
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* Footer */
+    footer {
+      background: #110d0b;
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 1.5rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      text-align: right;
+      margin-bottom: 2rem;
+    }
+
+    .footer-col h5 {
+      color: var(--paper-beige);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .footer-col p, .footer-col a {
+      color: var(--text-muted);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .footer-col a:hover {
+      color: var(--accent-blue);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: 8px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 850px) {
+      .nav-container nav {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
+      .show-card-featured {
+        grid-template-columns: 1fr;
+      }
+      .culture-grid {
+        grid-template-columns: 1fr;
+      }
+      .poster-3d-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .slogan-tag {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo-box" onclick="switchPage('home')">
+        <!-- Pulse SVG Logo -->
+        <svg class="logo-pulse-svg" viewBox="0 0 240 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 30 H50 L60 10 L75 50 L90 20 L100 35 L110 30 H230" stroke="#EC1C24" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="120" y="38" fill="#EDE3D0" font-family="Cairo" font-size="24" font-weight="900" letter-spacing="2">نــبــض</text>
+        </svg>
+        <span class="slogan-tag">كل نبضة تخبر قصة</span>
+      </a>
+
+      <nav id="main-nav">
+        <ul>
+          <li><a onclick="switchPage('home')" id="nav-home" class="active">الرئيسية</a></li>
+          <li><a onclick="switchPage('about')" id="nav-about">الرؤية والهدف والنظام</a></li>
+          <li><a onclick="switchPage('shows')" id="nav-shows">العروض والأعمال</a></li>
+          <li><a onclick="switchPage('gallery')" id="nav-gallery">معرض الأنشطة</a></li>
+          <li><a onclick="switchPage('careers')" id="nav-careers">التطوع والانتساب</a></li>
+        </ul>
+      </nav>
+
+      <button class="mobile-menu-btn" onclick="toggleMobileNav()"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </header>
+
+  <!-- ==================== HOME PAGE ==================== -->
+  <section id="page-home" class="page-section active">
+    <div class="hero">
+      <h1 class="hero-title">مشروع نبض المسرحي المستقل</h1>
+      <div class="hero-slogan">"كل نبضة تخبر قصة"</div>
+      <p class="hero-desc">
+        مبادرة مسرحية مجتمعية انطلقت من جرمانا - سوريا، تجمع بين فرقة نبض المسرحية وكادر تدريبي متخصص، بهدف استثمار الفن المسرحي كأداة للتعبير المجتمعي وبناء المهارات الفردية والجماعية وفق أطر تنظيمية واحترافية.
+      </p>
+      <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn btn-red" onclick="switchPage('about')"><i class="fa-solid fa-book-open"></i> الرؤية والنظام الداخلي</button>
+        <button class="btn btn-outline" onclick="switchPage('shows')"><i class="fa-solid fa-ticket"></i> استكشف العروض</button>
+      </div>
+    </div>
+
+    <!-- Featured Show Card: Salamieh Cinema Monologues -->
+    <div class="show-card-featured">
+      <div class="show-poster-box">
+        <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=600&q=80" alt="بوستر قعدة مونولوجات">
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;">عرض "قعدة مونولوجات" - سينما سلمية</p>
+      </div>
+      <div class="show-info-box">
+        <div>
+          <span class="badge-live"><i class="fa-solid fa-star"></i> العرض القادم في سلمية</span>
+          <h2 class="show-title">قعدة مونولوجات</h2>
+          <div class="show-venue">
+            <i class="fa-solid fa-location-dot"></i> سينما سلمية - مدينة سلمية الثقافية
+          </div>
+          <p class="show-meta-details">
+            تجربة مسرحية ناضجة مبنية على كلاسيكيات الأدب المسرحي العالمي (شيكسبير، تشيخوف، شيلر، تينيسي ويليامز، إبسن، وجان جيرودو). <strong>عُرِض مسبقاً بنجاح على خشبة مسرح بيت ألبيرتو</strong> ويُقدّم لجمهور سلمية.
+          </p>
+
+          <div class="booking-notice-box">
+            <p><i class="fa-solid fa-ticket" style="color: var(--accent-red); margin-left: 5px;"></i> <strong>حجز التذاكر المباشر:</strong> يتم الحجز مباشرة وحصرياً عبر صفحة سينما سلمية الرسمية:</p>
+            <a href="https://www.facebook.com/cinema.salamieh/" target="_blank" class="btn btn-red" style="margin-top: 10px; font-size: 0.9rem; padding: 0.55rem 1.2rem;">
+              <i class="fa-brands fa-facebook"></i> صفحة سينما سلمية للحجز المباشر
+            </a>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">إخراج: أسامة سخية</span>
+          <a href="https://wa.me/963992467272" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-weight: 700; font-size: 0.9rem;">
+            <i class="fa-brands fa-whatsapp"></i> استفسارات الواتساب المباشرة
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monologues Characters & Cast Grid -->
+    <div class="cast-grid-section">
+      <h3 class="section-title">شخصيات ومؤلفو "قعدة مونولوجات"</h3>
+      <div class="poster-3d-grid">
+        <div class="cell-box"><span class="cell-role">سيرينوف</span><div class="cell-actor">الكتّاب: شيكسبير</div></div>
+        <div class="cell-box"><span class="cell-role">عطيل</span><div class="cell-actor">أنطون تشيخوف</div></div>
+        <div class="cell-box"><span class="cell-role">إيزابيل</span><div class="cell-actor">فريدريش شيلر</div></div>
+        <div class="cell-box"><span class="cell-role">الليدي مكبث</span><div class="cell-actor">تينيسي ويليامز</div></div>
+        <div class="cell-box"><span class="cell-role">الليدي ميلفورد</span><div class="cell-actor">هنريك إبسن</div></div>
+        <div class="cell-box"><span class="cell-role">إيزابيل</span><div class="cell-actor">جان جيرودو</div></div>
+        <div class="cell-box"><span class="cell-role">هاملت</span><div class="cell-actor">حنين دوارة - إلياس ظماط</div></div>
+        <div class="cell-box"><span class="cell-role">توم</span><div class="cell-actor">لقاء الصالح - لارا الحلو</div></div>
+        <div class="cell-box"><span class="cell-role">نورا</span><div class="cell-actor">جودي الصدي - عمر أبو صالح</div></div>
+        <div class="cell-box"><span class="cell-role">مخرج مساعد</span><div class="cell-actor">هادي شلش - إباء الحاج</div></div>
+        <div class="cell-box"><span class="cell-role">المخرج</span><div class="cell-actor">آية أبو فاعور</div></div>
+        <div class="cell-box"><span class="cell-role">مسؤول لوجستي</span><div class="cell-actor">كارلا زيات</div></div>
+      </div>
+    </div>
+
+    <!-- Cultural Context: Salamieh & Cinema -->
+    <div class="cultural-section">
+      <div class="container-inner">
+        <div class="culture-grid">
+          <div class="culture-text">
+            <h3>سلمية .. منارة الفكر والمسرح</h3>
+            <p>
+              تعتبر مدينة <strong>سلمية</strong> في سوريا واحدة من أبرز المنارات الثقافية والأدبية، حيث عُرِفت تاريخياً بوعيها الفكري المرتفع، وإنجابها لكبار الشعراء والأدباء وفي مقدمتهم الشاعر المجدد <em>محمد الماغوط</em>.
+            </p>
+            <p>
+              تُمثّل <strong>سينما سلمية</strong> مركزاً تنويرياً احتضن أرقى العروض الفنية، واختيار مشروع "نبض" لتقديم عرض "قعدة مونولوجات" فيها هو تحية لهذا الجمهور الشغوف بالفن الأصيل.
+            </p>
+          </div>
+          <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            <h4 style="color: var(--paper-beige); margin-bottom: 1rem; font-weight: 700;"><i class="fa-solid fa-clapperboard" style="color: var(--accent-red);"></i> تفاصيل الحجز والعرض</h4>
+            <ul style="list-style: none; line-height: 2; color: var(--text-muted); font-size: 0.95rem;">
+              <li><strong style="color: var(--paper-beige);">المكان:</strong> دار سينما سلمية - سوريا</li>
+              <li><strong style="color: var(--paper-beige);">طريقة الحجز:</strong> مباشرة وحصرياً عبر صفحة سينما سلمية</li>
+              <li><strong style="color: var(--paper-beige);">نوع العمل:</strong> قعدة مونولوجات عالمية إنسانية</li>
+              <li><strong style="color: var(--paper-beige);">إنتاج:</strong> مشروع نبض المسرحي المستقل</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT, VISION & INTERNAL SYSTEM PAGE ==================== -->
+  <section id="page-about" class="page-section">
+    <div class="container-inner" style="padding: 2rem 1.5rem;">
+      <h2 class="section-title">النظام الداخلي والرؤية والأهداف</h2>
+      
+      <!-- Introduction & Background -->
+      <div style="background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 2.5rem;">
+        <h3 style="color: var(--paper-beige); font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800; border-right: 4px solid var(--accent-red); padding-right: 12px;">المقدمة والخلفية</h3>
+        <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.9;">
+          انطلق <strong>مشروع نبض المسرحي المستقل</strong> من جرمانا - سوريا كمبادرة مسرحية مجتمعية، تجمع بين فرقة نبض المسرحية وكادر تدريبي متخصص، بهدف استثمار الفن المسرحي كأداة للتعبير المجتمعي وبناء المهارات الفردية والجماعية.<br>
+          نشأت الحاجة إلى هذا النظام الداخلي من تنامي عدد الأعضاء والمسارات التدريبية والعروض التي يقدّمها المشروع، ما استدعى وضع إطار تنظيمي واضح يحدد الهيكلية، والحقوق والواجبات، وآليات العمل والانضباط، بما يضمن استمرارية المشروع وجودة أعماله. يُشكّل هذا النظام المرجعية الأساسية لكل من ينتسب إلى المشروع.
+        </p>
+      </div>
+
+      <!-- Vision & Mission Cards -->
+      <div class="about-cards-grid">
+        <div class="about-box" style="border-right: 4px solid var(--accent-red);">
+          <h4><i class="fa-solid fa-eye"></i> الرؤية</h4>
+          <p style="color: var(--text-muted); font-size: 0.98rem; line-height: 1.8;">
+            أن يكون مشروع نبض منصة مسرحية مجتمعية رائدة، تُحدث أثراً إيجابياً وملموساً في محيطها وتُخرّج كوادر فنية وإنسانية قادرة على التعبير عن قضايا مجتمعها بأدوات احترافية.
+          </p>
+        </div>
+
+        <div class="about-box" style="border-right: 4px solid var(--accent-blue);">
+          <h4><i class="fa-solid fa-bulltarget"></i> الرسالة</h4>
+          <p style="color: var(--text-muted); font-size: 0.98rem; line-height: 1.8;">
+            تقديم تجربة مسرحية وتدريبية آمنة ونوعية، تُعنى بتطوير الأداء الفني للأعضاء، وتناقش قضايا مجتمعية وإنسانية عبر عروض الفرقة، وتفتح المجال أمام غير المختصين لاكتشاف أنفسهم عبر المسارات التفاعلية وخدمات التدريب والإخراج.
+          </p>
+        </div>
+      </div>
+
+      <!-- Objectives Section -->
+      <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
+        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-crosshairs" style="color: var(--accent-red); margin-left: 8px;"></i> الأهداف الرئيسية للمشروع</h3>
+        <ul style="list-style: none; color: var(--text-muted); line-height: 2; font-size: 1rem;">
+          <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> تقديم عروض مسرحية نوعية تناقش قضايا مجتمعية وإنسانية وتجارب مسرحية ناضجة (عروض الفرقة / عروض ختامية للمسارات التفاعلية).</li>
+          <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> تطوير المهارات التمثيلية والفنية للأعضاء من خلال مهام داخلية وعروض خارجية.</li>
+          <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> المشاركة في الفعاليات المحلية والعالمية من خلال عروض الفرقة وأعمالها.</li>
+          <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> تقديم خدمات تدريبية وإخراجية لإنجاز أعمال مسرحية بمقابل مادي لأشخاص غير منتسبين للمشروع.</li>
+        </ul>
+      </div>
+
+      <!-- Governing Principles -->
+      <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
+        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-scale-balanced" style="color: var(--accent-red); margin-left: 8px;"></i> المبادئ الناظمة</h3>
+        <ul style="list-style: none; color: var(--text-muted); line-height: 2; font-size: 0.98rem;">
+          <li><strong style="color: var(--paper-beige);">• الاحترام المتبادل:</strong> بين جميع الأعضاء والمدربين والإداريين بلا تمييز.</li>
+          <li><strong style="color: var(--paper-beige);">• المساحة الآمنة:</strong> خالية من أي شكل من أشكال التحرش أو التنمر أو الإساءة.</li>
+          <li><strong style="color: var(--paper-beige);">• الشفافية:</strong> في القرارات الإدارية والمالية ووضوح المعايير المطبقة.</li>
+          <li><strong style="color: var(--paper-beige);">• الانضباط والالتزام:</strong> كأساس لجودة العمل الجماعي والفني (3 أيام أسبوعياً / 3.5 ساعة للتدريب).</li>
+          <li><strong style="color: var(--paper-beige);">• الاحترافية:</strong> في التدريب والعروض والتعامل مع الجمهور والشركاء.</li>
+          <li><strong style="color: var(--paper-beige);">• تكافؤ الفرص:</strong> المساواة بين الأعضاء وفق الكفاءة والالتزام.</li>
+        </ul>
+      </div>
+
+      <!-- Organizational Structure -->
+      <div style="margin-top: 2.5rem;">
+        <h3 style="color: var(--paper-beige); font-size: 1.4rem; font-weight: 800;"><i class="fa-solid fa-sitemap" style="color: var(--accent-blue); margin-left: 8px;"></i> الهيكلية التنظيمية لمجلس الإدارة</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">يتكون مجلس إدارة مشروع نبض من المناصب والمسؤوليات التالية:</p>
+        
+        <table class="org-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">المنصب</th>
+              <th>المسؤوليات الأساسية</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color: var(--paper-beige); font-weight: 700;">رئيس مجلس الإدارة</td>
+              <td>الإشراف العام على المشروع والفرقة، التخطيط الاستراتيجي، اعتماد البرامج التدريبية والعروض، إدارة العلاقات الخارجية العليا، وهو أيضاً مدرب مادة التمثيل (المخرج أسامة سخية).</td>
+            </tr>
+            <tr>
+              <td style="color: var(--paper-beige); font-weight: 700;">نائب المدير</td>
+              <td>مساعدة المدير في متابعة شؤون الفرقة، الإشراف على الالتزام بالحضور والانضباط، متابعة تنفيذ القرارات الإدارية، وتعويض المدير في غيابه.</td>
+            </tr>
+            <tr>
+              <td style="color: var(--paper-beige); font-weight: 700;">المساعد الإداري</td>
+              <td>متابعة الأمور التنظيمية والإدارية (جداول التدريب، استمارات الانتساب، الإعلانات، التنسيق مع الأعضاء، توثيق المحاضر، وإدارة ملفات وسجلات الحضور).</td>
+            </tr>
+            <tr>
+              <td style="color: var(--paper-beige); font-weight: 700;">مسؤول العلاقات العامة</td>
+              <td>التواصل مع الجمهور والجهات الخارجية (مسارح، شركاء، إعلام)، الرعاة والسبونسرات، والتمويل بالتنسيق مع أعضاء المشروع.</td>
+            </tr>
+            <tr>
+              <td style="color: var(--paper-beige); font-weight: 700;">مسؤول تواصل العروض</td>
+              <td>الترويج للعروض، إدارة الدعوات والفعاليات، الرد على استفسارات الجمهور، وإدارة فرق التلفزيون والإذاعات.</td>
+            </tr>
+            <tr>
+              <td style="color: var(--paper-beige); font-weight: 700;">مسؤول الفريق الإعلامي</td>
+              <td>الإشراف على وضع خطط الصفحات وتنفيذها، التنسيق مع فريق التوثيق (تصوير، فيديو، كتابة محتوى)، ومتابعة تصميم البوسترات والمواد الدعائية.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Code of Conduct & Safe Space -->
+      <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
+        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1rem; font-weight: 800;"><i class="fa-solid fa-shield-halved" style="color: var(--accent-red); margin-left: 8px;"></i> مدونة قواعد السلوك والمساحة الآمنة</h3>
+        <p style="color: var(--text-muted); line-height: 1.8; font-size: 0.95rem; margin-bottom: 1rem;">
+          <strong>الانضباط العام:</strong> تُعقد التدريبات 3 أيام أسبوعياً (مدة التدريب 3.5 ساعة). يُمنع استخدام الهواتف المحمولة نهائياً أثناء التدريبات.
+        </p>
+        <p style="color: var(--text-muted); line-height: 1.8; font-size: 0.95rem;">
+          <strong>حماية المساحة الآمنة:</strong> يلتزم المشروع بتوفير بيئة خالية من التحرش والتنمر. تُقدم الشكاوى كتابةً وتتولى لجنة التحقيق خلال 72 ساعة بسرية تامة، وتتدرج العقوبات للوصول إلى الفصل النهائي والتنسيق القانوني عند الحاجة وفق القوانين النافذة.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SHOWS & ARCHIVE PAGE ==================== -->
+  <section id="page-shows" class="page-section">
+    <div class="container-inner" style="padding: 2rem 1.5rem;">
+      <h2 class="section-title">أرشيف العروض والأعمال المسرحية</h2>
+      <p style="text-align: center; color: var(--text-muted); max-width: 700px; margin: 0 auto 2.5rem;">
+        أعمال مسرحية قدّمها مشروع نبض تعكس نضج التجربة الفنية والمسارات التفاعلية ومسرح الطفل.
+      </p>
+
+      <div class="archive-grid">
+        <!-- Show 1: قعدة مونولوجات -->
+        <div class="archive-card">
+          <div>
+            <span class="badge-live" style="background: rgba(236,28,36,0.15); border-color: var(--accent-red); color: var(--accent-red);">عرض متجول</span>
+            <h4>قعدة مونولوجات</h4>
+            <div class="archive-venue"><i class="fa-solid fa-location-dot"></i> مسرح بيت ألبيرتو & سينما سلمية</div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+              عرض ناضج مبني على كلاسيكيات الأدب المسرحي العالمي. <strong>عُرِض مسبقاً على خشبة مسرح بيت ألبيرتو</strong>، ويُعاد تقديمه لجمهور سينما سلمية.
+            </p>
+          </div>
+        </div>
+
+        <!-- Show 2: بيت مين؟ -->
+        <div class="archive-card">
+          <div>
+            <span class="badge-live">عرض سابق</span>
+            <h4>بيت مين؟</h4>
+            <div class="archive-venue"><i class="fa-solid fa-location-dot"></i> خشبة مسرح بيت ألبيرتو</div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+              عمل مسرحي يناقش قضايا مجتمعية وإنسانية بأسلوب درامي تفاعلي قدّم على خشبة مسرح بيت ألبيرتو.
+            </p>
+          </div>
+        </div>
+
+        <!-- Show 3: اعتراف مؤجل -->
+        <div class="archive-card">
+          <div>
+            <span class="badge-live">عرض سابق</span>
+            <h4>اعتراف مؤجل</h4>
+            <div class="archive-venue"><i class="fa-solid fa-location-dot"></i> خشبة مسرح الحمراء - دمشق</div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+              تجربة درامية إنسانية قُدّمت على خشبة مسرح الحمراء العريق في العاصمة دمشق.
+            </p>
+          </div>
+        </div>
+
+        <!-- Show 4: عروض الأطفال - جرمانا -->
+        <div class="archive-card">
+          <div>
+            <span class="badge-live" style="background: rgba(0,173,238,0.15); color: var(--accent-blue);">مسرح الطفل</span>
+            <h4>عروض مسرح الطفل</h4>
+            <div class="archive-venue"><i class="fa-solid fa-location-dot"></i> المركز الثقافي بجرمانا & صالة الوقف بجرمانا</div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+              عرضان مسرحيان للأطفال والعائلات استهدفا تعزيز القيم التفاعلية والإيجابية والتعبير الفني (في المركز الثقافي بجرمانا وفي صالة الوقف بجرمانا).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GALLERY PAGE ==================== -->
+  <section id="page-gallery" class="page-section">
+    <div class="container-inner" style="padding: 2rem 1.5rem;">
+      <h2 class="section-title">معرض الصور والأنشطة</h2>
+      <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">
+        توثيق إعلامي لورشات التدريبات، كواليس العروض، والفعاليات المسرحية.
+      </p>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterGallery('all')">الكل</button>
+        <button class="filter-btn" onclick="filterGallery('rehearsals')">التدريبات والورشات</button>
+        <button class="filter-btn" onclick="filterGallery('shows')">كواليس العروض</button>
+        <button class="filter-btn" onclick="filterGallery('kids')">عروض الأطفال</button>
+      </div>
+
+      <div class="gallery-grid" id="gallery-container">
+        <div class="gallery-item rehearsals" onclick="openLightbox('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" alt="تدريبات التعبير الجسدي">
+          <div class="gallery-overlay">
+            <span class="gallery-cat">التدريبات والورشات</span>
+            <span class="gallery-title">تدريبات التمثيل والصوت والرقص</span>
+          </div>
+        </div>
+
+        <div class="gallery-item shows" onclick="openLightbox('https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80" alt="عرض بيت ألبيرتو">
+          <div class="gallery-overlay">
+            <span class="gallery-cat">كواليس العروض</span>
+            <span class="gallery-title">مسرح بيت ألبيرتو - قعدة مونولوجات وبيت مين؟</span>
+          </div>
+        </div>
+
+        <div class="gallery-item shows" onclick="openLightbox('https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=600&q=80" alt="مسرح الحمراء">
+          <div class="gallery-overlay">
+            <span class="gallery-cat">كواليس العروض</span>
+            <span class="gallery-title">مسرح الحمراء بدمشق - اعتراف مؤجل</span>
+          </div>
+        </div>
+
+        <div class="gallery-item kids" onclick="openLightbox('https://images.unsplash.com/photo-1472162072142-d544e73eebfb?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1472162072142-d544e73eebfb?auto=format&fit=crop&w=600&q=80" alt="فعاليات الأطفال بجرمانا">
+          <div class="gallery-overlay">
+            <span class="gallery-cat">عروض الأطفال</span>
+            <span class="gallery-title">المركز الثقافي في جرمانا</span>
+          </div>
+        </div>
+
+        <div class="gallery-item rehearsals" onclick="openLightbox('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="ورشة الارتجال">
+          <div class="gallery-overlay">
+            <span class="gallery-cat">التدريبات والورشات</span>
+            <span class="gallery-title">تمارين المسارات التفاعلية</span>
+          </div>
+        </div>
+
+        <div class="gallery-item kids" onclick="openLightbox('https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?auto=format&fit=crop&w=600&q=80" alt="صالة الوقف بجرمانا">
+          <div class="gallery-overlay">
+            <span class="gallery-cat">عروض الأطفال</span>
+            <span class="gallery-title">صالة الوقف - جرمانا</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CAREERS & MEMBERSHIP PAGE ==================== -->
+  <section id="page-careers" class="page-section">
+    <div class="container-inner" style="padding: 2rem 1.5rem; max-width: 850px;">
+      <h2 class="section-title">شروط الانتساب والتطوع والوظائف</h2>
+      
+      <!-- Membership Steps according to Internal System -->
+      <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 2rem; margin-bottom: 2.5rem;">
+        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-user-plus" style="color: var(--accent-red); margin-left: 8px;"></i> آلية وشروط الانتساب إلى الفرقة</h3>
+        <ol style="color: var(--text-muted); line-height: 2; font-size: 0.98rem; padding-right: 20px;">
+          <li>تقديم طلب انتساب رسمي عبر استمارة التسجيل المعتمدة لدى المساعد الإداري.</li>
+          <li>اجتياز اختبار أو مقابلة قبول يحددها رئيس مجلس الإدارة.</li>
+          <li>التوقيع على تعهد صريح بالالتزام بالنظام الداخلي ومدونة قواعد السلوك.</li>
+          <li>تسديد قسط الشهر الأول عند القبول (يصنف المنتسب كـ "عضو جديد" لمدة 6 أشهر أولى).</li>
+        </ol>
+      </div>
+
+      <!-- LinkedIn Careers -->
+      <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 2rem; text-align: center; margin-bottom: 2.5rem;">
+        <i class="fa-brands fa-linkedin" style="font-size: 3.5rem; color: #0077b5; margin-bottom: 1rem;"></i>
+        <h3 style="color: var(--paper-beige); font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800;">تابعونا لفرص التطوع والوظائف على LinkedIn</h3>
+        <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+          يتم الإعلان عن الفرص الشاغرة في الفريق الإعلامي، العلاقات العامة، والمهام التنفيذية والتطوعية عبر صفحتنا الرسمية:
+        </p>
+        <a href="https://linkedin.com/company/nabd-theatre-project/" target="_blank" class="btn btn-red">
+          <i class="fa-brands fa-linkedin"></i> زيارة صفحة LinkedIn
+        </a>
+      </div>
+
+      <!-- Direct Channels -->
+      <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 2rem;">
+        <h3 style="color: var(--paper-beige); font-size: 1.3rem; margin-bottom: 1.5rem; text-align: center; font-weight: 800;">قنوات التواصل المباشر</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
+          <a href="https://wa.me/963992467272" target="_blank" style="text-decoration: none; color: var(--paper-beige); background: rgba(255,255,255,0.03); padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            <i class="fa-brands fa-whatsapp" style="font-size: 1.8rem; color: #25D366; margin-bottom: 8px;"></i>
+            <div style="font-weight: 700;">واتساب المباشر</div>
+            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">+963 992467272</div>
+          </a>
+
+          <a href="https://facebook.com/NabdProject" target="_blank" style="text-decoration: none; color: var(--paper-beige); background: rgba(255,255,255,0.03); padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            <i class="fa-brands fa-facebook" style="font-size: 1.8rem; color: #1877F2; margin-bottom: 8px;"></i>
+            <div style="font-weight: 700;">فيسبوك</div>
+            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">NabdProject</div>
+          </a>
+
+          <a href="https://instagram.com/nabd_project" target="_blank" style="text-decoration: none; color: var(--paper-beige); background: rgba(255,255,255,0.03); padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            <i class="fa-brands fa-instagram" style="font-size: 1.8rem; color: #E4405F; margin-bottom: 8px;"></i>
+            <div style="font-weight: 700;">إنستغرام</div>
+            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">@nabd_project</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Icons Global Bar -->
+  <div class="social-links-bar">
+    <a href="https://youtube.com/@nabdproject" target="_blank" class="social-icon-btn" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+    <a href="https://instagram.com/nabd_project" target="_blank" class="social-icon-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://facebook.com/NabdProject" target="_blank" class="social-icon-btn" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+    <a href="https://linkedin.com/company/nabd-theatre-project/" target="_blank" class="social-icon-btn" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+    <a href="https://wa.me/963992467272" target="_blank" class="social-icon-btn" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-col">
+        <h5>مشروع نبض المسرحي</h5>
+        <p>مبادرة مسرحية مجتمعية قائمة على النظام الداخلي المعتمد من جرمانا - سوريا.</p>
+        <p style="color: var(--accent-red); font-weight: 700; margin-top: 10px;">كل نبضة تخبر قصة</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>روابط الوسائط</h5>
+        <a href="https://youtube.com/@nabdproject" target="_blank"><i class="fa-brands fa-youtube"></i> قناة اليوتيوب الرسمية</a>
+        <a href="https://instagram.com/nabd_project" target="_blank"><i class="fa-brands fa-instagram"></i> صفحة الإنستغرام</a>
+        <a href="https://facebook.com/NabdProject" target="_blank"><i class="fa-brands fa-facebook"></i> صفحة الفيسبوك</a>
+      </div>
+
+      <div class="footer-col">
+        <h5>التواصل والتراخيص</h5>
+        <p><i class="fa-brands fa-whatsapp"></i> واتساب: +963 992467272</p>
+        <p><i class="fa-solid fa-globe"></i> الموقع: nabd-theatre.com</p>
+        <p><i class="fa-solid fa-location-dot"></i> المقر الرئيسي: جرمانا - سوريا</p>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+      جميع الحقوق محفوظة © مشروع نبض المسرحي المستقل nabd-theatre.com
+    </div>
+  </footer>
+
+  <!-- Lightbox Window -->
+  <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="صورة مكبرة">
+  </div>
+
+  <script>
+    function switchPage(pageId) {
+      const pages = document.querySelectorAll('.page-section');
+      pages.forEach(page => page.classList.remove('active'));
+
+      const targetPage = document.getElementById('page-' + pageId);
+      if(targetPage) {
+        targetPage.classList.add('active');
+      }
+
+      const navLinks = document.querySelectorAll('#main-nav ul li a');
+      navLinks.forEach(link => link.classList.remove('active'));
+
+      const activeNav = document.getElementById('nav-' + pageId);
+      if(activeNav) {
+        activeNav.classList.add('active');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileNav() {
+      const nav = document.getElementById('main-nav');
+      if (nav.style.display === 'block') {
+        nav.style.display = 'none';
+      } else {
+        nav.style.display = 'block';
+      }
+    }
+
+    function filterGallery(category) {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      if (event && event.target) {
+        event.target.classList.add('active');
+      }
+
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach(item => {
+        if(category === 'all' || item.classList.contains(category)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function openLightbox(imgUrl) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      img.src = imgUrl;
+      modal.classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox-modal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
