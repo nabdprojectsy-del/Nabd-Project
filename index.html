@@ -83,8 +83,9 @@
     }
 
     .logo-pulse-svg {
-      width: 140px;
-      height: 38px;
+      width: 160px;
+      height: 44px;
+      object-fit: contain;
     }
 
     .slogan-tag {
@@ -460,13 +461,85 @@
       transition: transform 0.5s ease;
     }
 
-    .gallery-item:hover img {
+    .gallery-item:hover > img {
       transform: scale(1.08);
+    }
+
+    .gallery-carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .gallery-carousel .carousel-track img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+    }
+
+    .gallery-carousel .carousel-track img.active {
+      opacity: 1;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(27, 21, 18, 0.72);
+      color: var(--paper-beige);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .carousel-btn:hover {
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    .carousel-btn.prev { right: 10px; }
+    .carousel-btn.next { left: 10px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      gap: 6px;
+    }
+
+    .carousel-dots button {
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background: rgba(237, 227, 208, 0.4);
+      cursor: pointer;
+    }
+
+    .carousel-dots button.active {
+      background: var(--accent-red);
     }
 
     .gallery-overlay {
       position: absolute;
       inset: 0;
+      z-index: 2;
       background: linear-gradient(to top, rgba(27,21,18,0.9) 0%, transparent 70%);
       display: flex;
       flex-direction: column;
@@ -474,6 +547,7 @@
       padding: 15px;
       opacity: 0;
       transition: opacity 0.3s ease;
+      pointer-events: none;
     }
 
     .gallery-item:hover .gallery-overlay {
@@ -690,7 +764,29 @@
       color: #fff;
       font-size: 2rem;
       cursor: pointer;
+      z-index: 6;
     }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 6;
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(27, 21, 18, 0.75);
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: none;
+    }
+
+    .lightbox-nav.visible { display: flex; align-items: center; justify-content: center; }
+    .lightbox-nav.prev { right: 24px; }
+    .lightbox-nav.next { left: 24px; }
+    .lightbox-nav:hover { background: var(--accent-red); }
 
     /* Responsive */
     @media (max-width: 850px) {
@@ -723,18 +819,14 @@
   <header>
     <div class="nav-container">
       <a href="#" class="logo-box" onclick="switchPage('home')">
-        <!-- Pulse SVG Logo -->
-        <svg class="logo-pulse-svg" viewBox="0 0 240 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 30 H50 L60 10 L75 50 L90 20 L100 35 L110 30 H230" stroke="#EC1C24" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="120" y="38" fill="#EDE3D0" font-family="Cairo" font-size="24" font-weight="900" letter-spacing="2">نــبــض</text>
-        </svg>
+        <img class="logo-pulse-svg" src="images/logo-nabd.png" alt="شعار مشروع نبض المسرحي">
         <span class="slogan-tag">كل نبضة تخبر قصة</span>
       </a>
 
       <nav id="main-nav">
         <ul>
           <li><a onclick="switchPage('home')" id="nav-home" class="active">الرئيسية</a></li>
-          <li><a onclick="switchPage('about')" id="nav-about">الرؤية والهدف والنظام</a></li>
+          <li><a onclick="switchPage('about')" id="nav-about">الرؤية والهدف</a></li>
           <li><a onclick="switchPage('shows')" id="nav-shows">العروض والأعمال</a></li>
           <li><a onclick="switchPage('gallery')" id="nav-gallery">معرض الأنشطة</a></li>
           <li><a onclick="switchPage('careers')" id="nav-careers">التطوع والانتساب</a></li>
@@ -751,10 +843,10 @@
       <h1 class="hero-title">مشروع نبض المسرحي المستقل</h1>
       <div class="hero-slogan">"كل نبضة تخبر قصة"</div>
       <p class="hero-desc">
-        مبادرة مسرحية مجتمعية انطلقت من جرمانا - سوريا، تجمع بين فرقة نبض المسرحية وكادر تدريبي متخصص، بهدف استثمار الفن المسرحي كأداة للتعبير المجتمعي وبناء المهارات الفردية والجماعية وفق أطر تنظيمية واحترافية.
+        مبادرة مسرحية مجتمعية انطلقت من جرمانا - سوريا، تجمع بين فرقة نبض المسرحية وكادر تدريبي متخصص، بهدف استثمار الفن المسرحي كأداة للتعبير المجتمعي وبناء المهارات الفردية والجماعية وفق مدارس مسرحية وعالمية.
       </p>
       <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-        <button class="btn btn-red" onclick="switchPage('about')"><i class="fa-solid fa-book-open"></i> الرؤية والنظام الداخلي</button>
+        <button class="btn btn-red" onclick="switchPage('about')"><i class="fa-solid fa-book-open"></i> الرؤية </button>
         <button class="btn btn-outline" onclick="switchPage('shows')"><i class="fa-solid fa-ticket"></i> استكشف العروض</button>
       </div>
     </div>
@@ -767,19 +859,20 @@
       </div>
       <div class="show-info-box">
         <div>
-          <span class="badge-live"><i class="fa-solid fa-star"></i> العرض القادم في سلمية</span>
+          <span class="badge-live"><i class="fa-solid fa-star"></i> العرض القادم في سلمية - 15/10</span>
           <h2 class="show-title">قعدة مونولوجات</h2>
           <div class="show-venue">
             <i class="fa-solid fa-location-dot"></i> سينما سلمية - مدينة سلمية الثقافية
           </div>
           <p class="show-meta-details">
+            <i class="fa-solid fa-calendar-days" style="color: var(--accent-blue);"></i> <strong>تاريخ العرض: 15/10</strong><br>
             تجربة مسرحية ناضجة مبنية على كلاسيكيات الأدب المسرحي العالمي (شيكسبير، تشيخوف، شيلر، تينيسي ويليامز، إبسن، وجان جيرودو). <strong>عُرِض مسبقاً بنجاح على خشبة مسرح بيت ألبيرتو</strong> ويُقدّم لجمهور سلمية.
           </p>
 
           <div class="booking-notice-box">
-            <p><i class="fa-solid fa-ticket" style="color: var(--accent-red); margin-left: 5px;"></i> <strong>حجز التذاكر المباشر:</strong> يتم الحجز مباشرة وحصرياً عبر صفحة سينما سلمية الرسمية:</p>
+            <p><i class="fa-solid fa-ticket" style="color: var(--accent-red); margin-left: 5px;"></i> <strong>حجز التذاكر: </strong> يتم الحجز مباشرة وحصرياً لدى سينما سلمية</p>
             <a href="https://www.facebook.com/cinema.salamieh/" target="_blank" class="btn btn-red" style="margin-top: 10px; font-size: 0.9rem; padding: 0.55rem 1.2rem;">
-              <i class="fa-brands fa-facebook"></i> صفحة سينما سلمية للحجز المباشر
+              <i class="fa-brands fa-facebook"></i> صفحة سينما سلمية
             </a>
           </div>
         </div>
@@ -795,19 +888,19 @@
 
     <!-- Monologues Characters & Cast Grid -->
     <div class="cast-grid-section">
-      <h3 class="section-title">شخصيات ومؤلفو "قعدة مونولوجات"</h3>
+      <h3 class="section-title">شخصيات  "قعدة مونولوجات"</h3>
       <div class="poster-3d-grid">
-        <div class="cell-box"><span class="cell-role">سيرينوف</span><div class="cell-actor">الكتّاب: شيكسبير</div></div>
-        <div class="cell-box"><span class="cell-role">عطيل</span><div class="cell-actor">أنطون تشيخوف</div></div>
-        <div class="cell-box"><span class="cell-role">إيزابيل</span><div class="cell-actor">فريدريش شيلر</div></div>
-        <div class="cell-box"><span class="cell-role">الليدي مكبث</span><div class="cell-actor">تينيسي ويليامز</div></div>
-        <div class="cell-box"><span class="cell-role">الليدي ميلفورد</span><div class="cell-actor">هنريك إبسن</div></div>
-        <div class="cell-box"><span class="cell-role">إيزابيل</span><div class="cell-actor">جان جيرودو</div></div>
-        <div class="cell-box"><span class="cell-role">هاملت</span><div class="cell-actor">حنين دوارة - إلياس ظماط</div></div>
-        <div class="cell-box"><span class="cell-role">توم</span><div class="cell-actor">لقاء الصالح - لارا الحلو</div></div>
-        <div class="cell-box"><span class="cell-role">نورا</span><div class="cell-actor">جودي الصدي - عمر أبو صالح</div></div>
-        <div class="cell-box"><span class="cell-role">مخرج مساعد</span><div class="cell-actor">هادي شلش - إباء الحاج</div></div>
-        <div class="cell-box"><span class="cell-role">المخرج</span><div class="cell-actor">آية أبو فاعور</div></div>
+        <div class="cell-box"><span class="cell-role">سميرينوف</span><div class="cell-actor">إباء الحج</div></div>
+        <div class="cell-box"><span class="cell-role">عطيل</span><div class="cell-actor">إلياس ظماط</div></div>
+        <div class="cell-box"><span class="cell-role">إيزابيل (شكسبير)</span><div class="cell-actor">آية أبو فاعور</div></div>
+        <div class="cell-box"><span class="cell-role">الليدي مكبث</span><div class="cell-actor">لارا الحلو</div></div>
+        <div class="cell-box"><span class="cell-role">الليدي ميلفورد</span><div class="cell-actor">لقاء الصالح</div></div>
+        <div class="cell-box"><span class="cell-role">إيزابيل (بين بين)</span><div class="cell-actor">جودي الصدي</div></div>
+        <div class="cell-box"><span class="cell-role">هاملت</span><div class="cell-actor">هادي شلش</div></div>
+        <div class="cell-box"><span class="cell-role">توم</span><div class="cell-actor">عمر أبو صالح</div></div>
+        <div class="cell-box"><span class="cell-role">نورا</span><div class="cell-actor">حنين دوارة</div></div>
+        <div class="cell-box"><span class="cell-role">مخرج مساعد</span><div class="cell-actor">بهاء طربوش</div></div>
+        <div class="cell-box"><span class="cell-role">المخرج</span><div class="cell-actor">أسامة سخية</div></div>
         <div class="cell-box"><span class="cell-role">مسؤول لوجستي</span><div class="cell-actor">كارلا زيات</div></div>
       </div>
     </div>
@@ -819,7 +912,7 @@
           <div class="culture-text">
             <h3>سلمية .. منارة الفكر والمسرح</h3>
             <p>
-              تعتبر مدينة <strong>سلمية</strong> في سوريا واحدة من أبرز المنارات الثقافية والأدبية، حيث عُرِفت تاريخياً بوعيها الفكري المرتفع، وإنجابها لكبار الشعراء والأدباء وفي مقدمتهم الشاعر المجدد <em>محمد الماغوط</em>.
+              تعتبر مدينة <strong>سلمية</strong> في سوريا واحدة من أبرز المنارات الثقافية والأدبية، حيث عُرِفت تاريخياً بوعيها الفكري المرتفع، وإنجابها لكبار الشعراء والأدباء وفي مقدمتهم الشاعر <em>محمد الماغوط</em>.
             </p>
             <p>
               تُمثّل <strong>سينما سلمية</strong> مركزاً تنويرياً احتضن أرقى العروض الفنية، واختيار مشروع "نبض" لتقديم عرض "قعدة مونولوجات" فيها هو تحية لهذا الجمهور الشغوف بالفن الأصيل.
@@ -828,9 +921,10 @@
           <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
             <h4 style="color: var(--paper-beige); margin-bottom: 1rem; font-weight: 700;"><i class="fa-solid fa-clapperboard" style="color: var(--accent-red);"></i> تفاصيل الحجز والعرض</h4>
             <ul style="list-style: none; line-height: 2; color: var(--text-muted); font-size: 0.95rem;">
-              <li><strong style="color: var(--paper-beige);">المكان:</strong> دار سينما سلمية - سوريا</li>
-              <li><strong style="color: var(--paper-beige);">طريقة الحجز:</strong> مباشرة وحصرياً عبر صفحة سينما سلمية</li>
-              <li><strong style="color: var(--paper-beige);">نوع العمل:</strong> قعدة مونولوجات عالمية إنسانية</li>
+              <li><strong style="color: var(--paper-beige);">التاريخ:</strong> 15/10</li>
+              <li><strong style="color: var(--paper-beige);">المكان:</strong> سينما سلمية - سوريا</li>
+              <li><strong style="color: var(--paper-beige);">طريقة الحجز:</strong> مباشرة عبر شباك تذاكر سينما سلمية</li>
+              <li><strong style="color: var(--paper-beige);">نوع العمل:</strong> عمل مسرحي كلاسيكي أصيل</li>
               <li><strong style="color: var(--paper-beige);">إنتاج:</strong> مشروع نبض المسرحي المستقل</li>
             </ul>
           </div>
@@ -842,14 +936,13 @@
   <!-- ==================== ABOUT, VISION & INTERNAL SYSTEM PAGE ==================== -->
   <section id="page-about" class="page-section">
     <div class="container-inner" style="padding: 2rem 1.5rem;">
-      <h2 class="section-title">النظام الداخلي والرؤية والأهداف</h2>
+      <h2 class="section-title">الرؤية والأهداف</h2>
       
       <!-- Introduction & Background -->
       <div style="background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 2.5rem;">
         <h3 style="color: var(--paper-beige); font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800; border-right: 4px solid var(--accent-red); padding-right: 12px;">المقدمة والخلفية</h3>
         <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.9;">
-          انطلق <strong>مشروع نبض المسرحي المستقل</strong> من جرمانا - سوريا كمبادرة مسرحية مجتمعية، تجمع بين فرقة نبض المسرحية وكادر تدريبي متخصص، بهدف استثمار الفن المسرحي كأداة للتعبير المجتمعي وبناء المهارات الفردية والجماعية.<br>
-          نشأت الحاجة إلى هذا النظام الداخلي من تنامي عدد الأعضاء والمسارات التدريبية والعروض التي يقدّمها المشروع، ما استدعى وضع إطار تنظيمي واضح يحدد الهيكلية، والحقوق والواجبات، وآليات العمل والانضباط، بما يضمن استمرارية المشروع وجودة أعماله. يُشكّل هذا النظام المرجعية الأساسية لكل من ينتسب إلى المشروع.
+          <strong>مشروع نبض المسرحي المستقل</strong> هو مبادرة أهلية وُلدت في جرمانا - سوريا، تضم فرقة تمثيلية وكادراً تدريبياً متخصصاً يعملان معاً على توظيف أدوات المسرح في خدمة قضايا المجتمع وصقل مهارات أعضائها فرداً وجماعة.<br>
         </p>
       </div>
 
@@ -863,7 +956,7 @@
         </div>
 
         <div class="about-box" style="border-right: 4px solid var(--accent-blue);">
-          <h4><i class="fa-solid fa-bulltarget"></i> الرسالة</h4>
+          <h4><i class="fa-solid fa-bullseye"></i> الرسالة</h4>
           <p style="color: var(--text-muted); font-size: 0.98rem; line-height: 1.8;">
             تقديم تجربة مسرحية وتدريبية آمنة ونوعية، تُعنى بتطوير الأداء الفني للأعضاء، وتناقش قضايا مجتمعية وإنسانية عبر عروض الفرقة، وتفتح المجال أمام غير المختصين لاكتشاف أنفسهم عبر المسارات التفاعلية وخدمات التدريب والإخراج.
           </p>
@@ -872,11 +965,10 @@
 
       <!-- Objectives Section -->
       <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
-        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-crosshairs" style="color: var(--accent-red); margin-left: 8px;"></i> الأهداف الرئيسية للمشروع</h3>
+        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-crosshairs" style="color: var(--accent-red); margin-left: 8px;"></i> خدمات المشروع</h3>
         <ul style="list-style: none; color: var(--text-muted); line-height: 2; font-size: 1rem;">
           <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> تقديم عروض مسرحية نوعية تناقش قضايا مجتمعية وإنسانية وتجارب مسرحية ناضجة (عروض الفرقة / عروض ختامية للمسارات التفاعلية).</li>
           <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> تطوير المهارات التمثيلية والفنية للأعضاء من خلال مهام داخلية وعروض خارجية.</li>
-          <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> المشاركة في الفعاليات المحلية والعالمية من خلال عروض الفرقة وأعمالها.</li>
           <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> تقديم خدمات تدريبية وإخراجية لإنجاز أعمال مسرحية بمقابل مادي لأشخاص غير منتسبين للمشروع.</li>
         </ul>
       </div>
@@ -888,59 +980,27 @@
           <li><strong style="color: var(--paper-beige);">• الاحترام المتبادل:</strong> بين جميع الأعضاء والمدربين والإداريين بلا تمييز.</li>
           <li><strong style="color: var(--paper-beige);">• المساحة الآمنة:</strong> خالية من أي شكل من أشكال التحرش أو التنمر أو الإساءة.</li>
           <li><strong style="color: var(--paper-beige);">• الشفافية:</strong> في القرارات الإدارية والمالية ووضوح المعايير المطبقة.</li>
-          <li><strong style="color: var(--paper-beige);">• الانضباط والالتزام:</strong> كأساس لجودة العمل الجماعي والفني (3 أيام أسبوعياً / 3.5 ساعة للتدريب).</li>
+          <li><strong style="color: var(--paper-beige);">• الانضباط والالتزام:</strong> كأساس لجودة العمل الجماعي والفني.</li>
           <li><strong style="color: var(--paper-beige);">• الاحترافية:</strong> في التدريب والعروض والتعامل مع الجمهور والشركاء.</li>
           <li><strong style="color: var(--paper-beige);">• تكافؤ الفرص:</strong> المساواة بين الأعضاء وفق الكفاءة والالتزام.</li>
         </ul>
       </div>
 
-      <!-- Organizational Structure -->
-      <div style="margin-top: 2.5rem;">
-        <h3 style="color: var(--paper-beige); font-size: 1.4rem; font-weight: 800;"><i class="fa-solid fa-sitemap" style="color: var(--accent-blue); margin-left: 8px;"></i> الهيكلية التنظيمية لمجلس الإدارة</h3>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">يتكون مجلس إدارة مشروع نبض من المناصب والمسؤوليات التالية:</p>
-        
-        <table class="org-table">
-          <thead>
-            <tr>
-              <th style="width: 30%;">المنصب</th>
-              <th>المسؤوليات الأساسية</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="color: var(--paper-beige); font-weight: 700;">رئيس مجلس الإدارة</td>
-              <td>الإشراف العام على المشروع والفرقة، التخطيط الاستراتيجي، اعتماد البرامج التدريبية والعروض، إدارة العلاقات الخارجية العليا، وهو أيضاً مدرب مادة التمثيل (المخرج أسامة سخية).</td>
-            </tr>
-            <tr>
-              <td style="color: var(--paper-beige); font-weight: 700;">نائب المدير</td>
-              <td>مساعدة المدير في متابعة شؤون الفرقة، الإشراف على الالتزام بالحضور والانضباط، متابعة تنفيذ القرارات الإدارية، وتعويض المدير في غيابه.</td>
-            </tr>
-            <tr>
-              <td style="color: var(--paper-beige); font-weight: 700;">المساعد الإداري</td>
-              <td>متابعة الأمور التنظيمية والإدارية (جداول التدريب، استمارات الانتساب، الإعلانات، التنسيق مع الأعضاء، توثيق المحاضر، وإدارة ملفات وسجلات الحضور).</td>
-            </tr>
-            <tr>
-              <td style="color: var(--paper-beige); font-weight: 700;">مسؤول العلاقات العامة</td>
-              <td>التواصل مع الجمهور والجهات الخارجية (مسارح، شركاء، إعلام)، الرعاة والسبونسرات، والتمويل بالتنسيق مع أعضاء المشروع.</td>
-            </tr>
-            <tr>
-              <td style="color: var(--paper-beige); font-weight: 700;">مسؤول تواصل العروض</td>
-              <td>الترويج للعروض، إدارة الدعوات والفعاليات، الرد على استفسارات الجمهور، وإدارة فرق التلفزيون والإذاعات.</td>
-            </tr>
-            <tr>
-              <td style="color: var(--paper-beige); font-weight: 700;">مسؤول الفريق الإعلامي</td>
-              <td>الإشراف على وضع خطط الصفحات وتنفيذها، التنسيق مع فريق التوثيق (تصوير، فيديو، كتابة محتوى)، ومتابعة تصميم البوسترات والمواد الدعائية.</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Partners Section -->
+      <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
+        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-handshake" style="color: var(--accent-red); margin-left: 8px;"></i> شركاؤنا</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">نادي أوم لليوغا</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">بيت ألبيرتو اليسوعي</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">مركز الناصر للتدريب</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">شركة زوادا</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">شركة كينزا</div>
+        </div>
       </div>
 
       <!-- Code of Conduct & Safe Space -->
       <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
         <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1rem; font-weight: 800;"><i class="fa-solid fa-shield-halved" style="color: var(--accent-red); margin-left: 8px;"></i> مدونة قواعد السلوك والمساحة الآمنة</h3>
-        <p style="color: var(--text-muted); line-height: 1.8; font-size: 0.95rem; margin-bottom: 1rem;">
-          <strong>الانضباط العام:</strong> تُعقد التدريبات 3 أيام أسبوعياً (مدة التدريب 3.5 ساعة). يُمنع استخدام الهواتف المحمولة نهائياً أثناء التدريبات.
-        </p>
         <p style="color: var(--text-muted); line-height: 1.8; font-size: 0.95rem;">
           <strong>حماية المساحة الآمنة:</strong> يلتزم المشروع بتوفير بيئة خالية من التحرش والتنمر. تُقدم الشكاوى كتابةً وتتولى لجنة التحقيق خلال 72 ساعة بسرية تامة، وتتدرج العقوبات للوصول إلى الفصل النهائي والتنسيق القانوني عند الحاجة وفق القوانين النافذة.
         </p>
@@ -960,7 +1020,7 @@
         <!-- Show 1: قعدة مونولوجات -->
         <div class="archive-card">
           <div>
-            <span class="badge-live" style="background: rgba(236,28,36,0.15); border-color: var(--accent-red); color: var(--accent-red);">عرض متجول</span>
+            <span class="badge-live" style="background: rgba(236,28,36,0.15); border-color: var(--accent-red); color: var(--accent-red);">عرض كلاسيكي</span>
             <h4>قعدة مونولوجات</h4>
             <div class="archive-venue"><i class="fa-solid fa-location-dot"></i> مسرح بيت ألبيرتو & سينما سلمية</div>
             <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
@@ -972,7 +1032,7 @@
         <!-- Show 2: بيت مين؟ -->
         <div class="archive-card">
           <div>
-            <span class="badge-live">عرض سابق</span>
+            <span class="badge-live">عرض تفاعلي</span>
             <h4>بيت مين؟</h4>
             <div class="archive-venue"><i class="fa-solid fa-location-dot"></i> خشبة مسرح بيت ألبيرتو</div>
             <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
@@ -984,7 +1044,7 @@
         <!-- Show 3: اعتراف مؤجل -->
         <div class="archive-card">
           <div>
-            <span class="badge-live">عرض سابق</span>
+            <span class="badge-live">عرض تفاعلي</span>
             <h4>اعتراف مؤجل</h4>
             <div class="archive-venue"><i class="fa-solid fa-location-dot"></i> خشبة مسرح الحمراء - دمشق</div>
             <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
@@ -1011,121 +1071,339 @@
   <!-- ==================== GALLERY PAGE ==================== -->
   <section id="page-gallery" class="page-section">
     <div class="container-inner" style="padding: 2rem 1.5rem;">
-      <h2 class="section-title">معرض الصور والأنشطة</h2>
+      <h2 class="section-title">معرض الأنشطة والفيديوهات</h2>
       <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">
-        توثيق إعلامي لورشات التدريبات، كواليس العروض، والفعاليات المسرحية.
+        توثيق إعلامي شامل للمشاهد المسرحية، الفيديوهات التفاعلية، وكواليس التدريبات والعروض.
       </p>
 
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterGallery('all')">الكل</button>
-        <button class="filter-btn" onclick="filterGallery('rehearsals')">التدريبات والورشات</button>
-        <button class="filter-btn" onclick="filterGallery('shows')">كواليس العروض</button>
-        <button class="filter-btn" onclick="filterGallery('kids')">عروض الأطفال</button>
+      <div class="filter-bar" style="margin-bottom: 2rem;">
+        <button class="filter-btn active" onclick="switchMediaTab('photos')"><i class="fa-solid fa-images"></i> معرض الصور</button>
+        <button class="filter-btn" onclick="switchMediaTab('youtube')"><i class="fa-brands fa-youtube" style="color:#ff0000;"></i> فيديوهات اليوتيوب</button>
+        <button class="filter-btn" onclick="switchMediaTab('instagram')"><i class="fa-brands fa-instagram" style="color:#E4405F;"></i> ريلات الإنستغرام</button>
+        <button class="filter-btn" onclick="switchMediaTab('facebook')"><i class="fa-brands fa-facebook" style="color:#1877F2;"></i> مقاطع الفيسبوك</button>
       </div>
 
-      <div class="gallery-grid" id="gallery-container">
-        <div class="gallery-item rehearsals" onclick="openLightbox('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" alt="تدريبات التعبير الجسدي">
-          <div class="gallery-overlay">
-            <span class="gallery-cat">التدريبات والورشات</span>
-            <span class="gallery-title">تدريبات التمثيل والصوت والرقص</span>
-          </div>
+      <div id="tab-photos" class="media-tab-content">
+        <div class="filter-bar" style="margin-bottom: 1.5rem;">
+          <button class="filter-btn active" onclick="filterGallery('all')">الكل</button>
+          <button class="filter-btn" onclick="filterGallery('rehearsals')">التدريبات والورشات</button>
+          <button class="filter-btn" onclick="filterGallery('shows')">كواليس العروض</button>
+          <button class="filter-btn" onclick="filterGallery('kids')">عروض الأطفال</button>
         </div>
 
-        <div class="gallery-item shows" onclick="openLightbox('https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80" alt="عرض بيت ألبيرتو">
+        <div class="gallery-grid" id="gallery-container">
+        <div class="gallery-item shows" onclick="openCarouselLightbox('alberto')">
+          <div class="gallery-carousel" data-carousel="alberto">
+            <div class="carousel-track">
+              <img class="active" src="images/alberto/01.png" alt="مسرح بيت ألبيرتو 1">
+              <img src="images/alberto/02.png" alt="مسرح بيت ألبيرتو 2">
+              <img src="images/alberto/03.png" alt="مسرح بيت ألبيرتو 3">
+              <img src="images/alberto/04.png" alt="مسرح بيت ألبيرتو 4">
+              <img src="images/alberto/05.png" alt="مسرح بيت ألبيرتو 5">
+              <img src="images/alberto/06.png" alt="مسرح بيت ألبيرتو 6">
+              <img src="images/alberto/07.png" alt="مسرح بيت ألبيرتو 7">
+              <img src="images/alberto/08.png" alt="مسرح بيت ألبيرتو 8">
+              <img src="images/alberto/09.png" alt="مسرح بيت ألبيرتو 9">
+              <img src="images/alberto/10.png" alt="مسرح بيت ألبيرتو 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">كواليس العروض</span>
             <span class="gallery-title">مسرح بيت ألبيرتو - قعدة مونولوجات وبيت مين؟</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('alberto', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('alberto', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="alberto"></div>
         </div>
 
-        <div class="gallery-item shows" onclick="openLightbox('https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=600&q=80" alt="مسرح الحمراء">
+        <div class="gallery-item shows" onclick="openCarouselLightbox('eteraf')">
+          <div class="gallery-carousel" data-carousel="eteraf">
+            <div class="carousel-track">
+              <img class="active" src="images/eteraf/01.png" alt="اعتراف مؤجل 1">
+              <img src="images/eteraf/02.png" alt="اعتراف مؤجل 2">
+              <img src="images/eteraf/03.png" alt="اعتراف مؤجل 3">
+              <img src="images/eteraf/04.png" alt="اعتراف مؤجل 4">
+              <img src="images/eteraf/05.png" alt="اعتراف مؤجل 5">
+              <img src="images/eteraf/06.png" alt="اعتراف مؤجل 6">
+              <img src="images/eteraf/07.png" alt="اعتراف مؤجل 7">
+              <img src="images/eteraf/08.png" alt="اعتراف مؤجل 8">
+              <img src="images/eteraf/09.png" alt="اعتراف مؤجل 9">
+              <img src="images/eteraf/10.png" alt="اعتراف مؤجل 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">كواليس العروض</span>
             <span class="gallery-title">مسرح الحمراء بدمشق - اعتراف مؤجل</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('eteraf', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('eteraf', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="eteraf"></div>
         </div>
 
-        <div class="gallery-item kids" onclick="openLightbox('https://images.unsplash.com/photo-1472162072142-d544e73eebfb?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1472162072142-d544e73eebfb?auto=format&fit=crop&w=600&q=80" alt="فعاليات الأطفال بجرمانا">
+        <div class="gallery-item kids" onclick="openCarouselLightbox('jaramana')">
+          <div class="gallery-carousel" data-carousel="jaramana">
+            <div class="carousel-track">
+              <img class="active" src="images/jaramana/01.png" alt="فعاليات جرمانا 1">
+              <img src="images/jaramana/02.png" alt="فعاليات جرمانا 2">
+              <img src="images/jaramana/03.png" alt="فعاليات جرمانا 3">
+              <img src="images/jaramana/04.png" alt="فعاليات جرمانا 4">
+              <img src="images/jaramana/05.png" alt="فعاليات جرمانا 5">
+              <img src="images/jaramana/06.png" alt="فعاليات جرمانا 6">
+              <img src="images/jaramana/07.png" alt="فعاليات جرمانا 7">
+              <img src="images/jaramana/08.png" alt="فعاليات جرمانا 8">
+              <img src="images/jaramana/09.png" alt="فعاليات جرمانا 9">
+              <img src="images/jaramana/10.png" alt="فعاليات جرمانا 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">عروض الأطفال</span>
             <span class="gallery-title">المركز الثقافي في جرمانا</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('jaramana', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('jaramana', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="jaramana"></div>
         </div>
 
-        <div class="gallery-item rehearsals" onclick="openLightbox('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="ورشة الارتجال">
+        <div class="gallery-item rehearsals" onclick="openCarouselLightbox('masarat')">
+          <div class="gallery-carousel" data-carousel="masarat">
+            <div class="carousel-track">
+              <img class="active" src="images/masarat/01.png" alt="تمارين المسارات التفاعلية 1">
+              <img src="images/masarat/02.png" alt="تمارين المسارات التفاعلية 2">
+              <img src="images/masarat/03.png" alt="تمارين المسارات التفاعلية 3">
+              <img src="images/masarat/04.png" alt="تمارين المسارات التفاعلية 4">
+              <img src="images/masarat/05.png" alt="تمارين المسارات التفاعلية 5">
+              <img src="images/masarat/06.png" alt="تمارين المسارات التفاعلية 6">
+              <img src="images/masarat/07.png" alt="تمارين المسارات التفاعلية 7">
+              <img src="images/masarat/08.png" alt="تمارين المسارات التفاعلية 8">
+              <img src="images/masarat/09.png" alt="تمارين المسارات التفاعلية 9">
+              <img src="images/masarat/10.png" alt="تمارين المسارات التفاعلية 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">التدريبات والورشات</span>
             <span class="gallery-title">تمارين المسارات التفاعلية</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('masarat', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('masarat', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="masarat"></div>
         </div>
 
-        <div class="gallery-item kids" onclick="openLightbox('https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?auto=format&fit=crop&w=600&q=80" alt="صالة الوقف بجرمانا">
+        <div class="gallery-item kids" onclick="openCarouselLightbox('waqf')">
+          <div class="gallery-carousel" data-carousel="waqf">
+            <div class="carousel-track">
+              <img class="active" src="images/waqf/01.png" alt="صالة الوقف 1">
+              <img src="images/waqf/02.png" alt="صالة الوقف 2">
+              <img src="images/waqf/03.png" alt="صالة الوقف 3">
+              <img src="images/waqf/04.png" alt="صالة الوقف 4">
+              <img src="images/waqf/05.png" alt="صالة الوقف 5">
+              <img src="images/waqf/06.png" alt="صالة الوقف 6">
+              <img src="images/waqf/07.png" alt="صالة الوقف 7">
+              <img src="images/waqf/08.png" alt="صالة الوقف 8">
+              <img src="images/waqf/09.png" alt="صالة الوقف 9">
+              <img src="images/waqf/10.png" alt="صالة الوقف 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">عروض الأطفال</span>
             <span class="gallery-title">صالة الوقف - جرمانا</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('waqf', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('waqf', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="waqf"></div>
+        </div>
+
+        <div class="gallery-item rehearsals" onclick="openCarouselLightbox('waqf2')">
+          <div class="gallery-carousel" data-carousel="waqf2">
+            <div class="carousel-track">
+              <img class="active" src="images/waqf-2/01.png" alt="صالة الوقف 1">
+              <img src="images/waqf-2/02.png" alt="صالة الوقف 2">
+              <img src="images/waqf-2/03.png" alt="صالة الوقف 3">
+              <img src="images/waqf-2/04.png" alt="صالة الوقف 4">
+              <img src="images/waqf-2/05.png" alt="صالة الوقف 5">
+              <img src="images/waqf-2/06.png" alt="صالة الوقف 6">
+              <img src="images/waqf-2/07.png" alt="صالة الوقف 7">
+              <img src="images/waqf-2/08.png" alt="صالة الوقف 8">
+              <img src="images/waqf-2/09.png" alt="صالة الوقف 9">
+              <img src="images/waqf-2/10.png" alt="صالة الوقف 10">
+            </div>
+          </div>
+          <div class="gallery-overlay">
+            <span class="gallery-cat">التدريبات و الورشات</span>
+            <span class="gallery-title">فريق العمل</span>
+          </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('waqf2', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('waqf2', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="waqf2"></div>
+        </div>
+
+        <div class="gallery-item shows" onclick="openCarouselLightbox('waqf3')">
+          <div class="gallery-carousel" data-carousel="waqf3">
+            <div class="carousel-track">
+              <img class="active" src="images/waqf-3/01.png" alt="صالة الوقف 1">
+              <img src="images/waqf-3/02.png" alt="صالة الوقف 2">
+              <img src="images/waqf-3/03.png" alt="صالة الوقف 3">
+              <img src="images/waqf-3/04.png" alt="صالة الوقف 4">
+              <img src="images/waqf-3/05.png" alt="صالة الوقف 5">
+              <img src="images/waqf-3/06.png" alt="صالة الوقف 6">
+              <img src="images/waqf-3/07.png" alt="صالة الوقف 7">
+              <img src="images/waqf-3/08.png" alt="صالة الوقف 8">
+              <img src="images/waqf-3/09.png" alt="صالة الوقف 9">
+              <img src="images/waqf-3/10.png" alt="صالة الوقف 10">
+            </div>
+          </div>
+          <div class="gallery-overlay">
+            <span class="gallery-cat">كواليس العروض</span>
+            <span class="gallery-title">مسرح بيت ألبيرتو - بيت مين؟</span>
+          </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('waqf3', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('waqf3', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="waqf3"></div>
+        </div>
         </div>
       </div>
+
+      <div id="tab-youtube" class="media-tab-content" style="display: none;">
+        <div style="max-width: 900px; margin: 0 auto; background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); overflow: hidden;">
+          <div id="youtube-player-box" style="position: relative; padding-bottom: 56.25%; height: 0; cursor: pointer;" onclick="playYoutube('TOsh3loUwSU')">
+            <img src="https://img.youtube.com/vi/TOsh3loUwSU/hqdefault.jpg" alt="فيديو مشروع نبض المسرحي" style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+            <div style="position: absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background: rgba(27, 21, 18, 0.35);">
+              <i class="fa-brands fa-youtube" style="font-size: 4rem; color: #ff0000;"></i>
+            </div>
+          </div>
+          <div style="padding: 1.2rem; text-align: center;">
+            <p id="youtube-local-notice" style="display: none; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.8rem;">
+              * التشغيل داخل الصفحة يحتاج فتح الموقع عبر خادم (http) وليس من الملف مباشرة.
+            </p>
+            <a href="https://youtu.be/TOsh3loUwSU" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; padding: 6px 12px; justify-content: center;">
+              <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> المشاهدة المباشرة على YouTube
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-instagram" class="media-tab-content" style="display: none;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+          <!-- Instagram Reel Card 1 -->
+          <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center;">
+            <i class="fa-brands fa-instagram" style="font-size: 2.8rem; color: #E4405F; margin-bottom: 1rem;"></i>
+            <h4 style="color: var(--paper-beige); font-weight: 700; margin-bottom: 8px;">شمعة الحكمة 🕯️</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">ريل إبداعي تفاعلي مع كادر نبض - إضاءة خافتة وحكم مسرحية ملهمة.</p>
+            <a href="https://www.facebook.com/share/r/1C4YDtGNE7/" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; width: 100%; justify-content: center;">
+              <i class="fa-brands fa-instagram"></i> مشاهدة الريل على Instagram
+            </a>
+          </div>
+
+          <!-- Instagram Reel Card 2 -->
+          <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center;">
+            <i class="fa-brands fa-instagram" style="font-size: 2.8rem; color: #E4405F; margin-bottom: 1rem;"></i>
+            <h4 style="color: var(--paper-beige); font-weight: 700; margin-bottom: 8px;">الورقة المحروقة 🔥</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">محاكاة الصوت الداخلي وأثير المسرح مع Voice Over يعبر عن نبض القلب.</p>
+            <a href="https://www.instagram.com/reel/DdW_OZkCEmD/" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; width: 100%; justify-content: center;">
+              <i class="fa-brands fa-instagram"></i> مشاهدة الريل على Instagram
+            </a>
+          </div>
+
+          <!-- Instagram Reel Card 3 -->
+          <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center;">
+            <i class="fa-brands fa-instagram" style="font-size: 2.8rem; color: #E4405F; margin-bottom: 1rem;"></i>
+            <h4 style="color: var(--paper-beige); font-weight: 700; margin-bottom: 8px;">إذا نبض كان شعور ✨</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">لوحة فنية بصوت وصورة أعضاء الفرقة يعبرون عن معاني الدفء والسلام والأمان.</p>
+            <a href="https://www.instagram.com/reel/DYxVwTWjbLZ/" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; width: 100%; justify-content: center;">
+              <i class="fa-brands fa-instagram"></i> مشاهدة الريل على Instagram
+            </a>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="https://instagram.com/nabd_project" target="_blank" class="btn btn-red">
+            <i class="fa-brands fa-instagram"></i> متابعة حساب الإنستغرام @nabd_project
+          </a>
+        </div>
+      </div>
+
+      <div id="tab-facebook" class="media-tab-content" style="display: none;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+          <!-- Facebook Video Card 1 -->
+          <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
+              <i class="fa-brands fa-facebook" style="font-size: 2.2rem; color: #1877F2;"></i>
+              <div>
+                <h4 style="color: var(--paper-beige); font-weight: 700; font-size: 1.05rem;">كواليس قعدة مونولوجات</h4>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">شخصيات العرض</span>
+              </div>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem; line-height: 1.7;">
+		لقطات حية من البروفا الجنرال للعرض
+            </p>
+            <a href="https://www.facebook.com/share/r/1C4YDtGNE7/" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; width: 100%; justify-content: center;">
+              <i class="fa-brands fa-facebook"></i> مشاهدة على Facebook
+            </a>
+          </div>
+
+          <!-- Facebook Video Card 2 -->
+          <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
+              <i class="fa-brands fa-facebook" style="font-size: 2.2rem; color: #1877F2;"></i>
+              <div>
+                <h4 style="color: var(--paper-beige); font-weight: 700; font-size: 1.05rem;">من دروس الرقص</h4>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">تدريبات الفرقة</span>
+              </div>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem; line-height: 1.7;">
+		جانب من التدريبات المختصة لفرقة نبض المسرحية
+            </p>
+            <a href="https://www.facebook.com/share/r/1BtgRJWWBU/" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; width: 100%; justify-content: center;">
+              <i class="fa-brands fa-facebook"></i> مشاهدة على Facebook
+            </a>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="https://facebook.com/NabdProject" target="_blank" class="btn btn-red">
+            <i class="fa-brands fa-facebook"></i> زيارة صفحة الفيسبوك الرسمية NabdProject
+          </a>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- ==================== CAREERS & MEMBERSHIP PAGE ==================== -->
+  <!-- ==================== CAREERS / JOIN US PAGE ==================== -->
   <section id="page-careers" class="page-section">
-    <div class="container-inner" style="padding: 2rem 1.5rem; max-width: 850px;">
-      <h2 class="section-title">شروط الانتساب والتطوع والوظائف</h2>
-      
-      <!-- Membership Steps according to Internal System -->
-      <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 2rem; margin-bottom: 2.5rem;">
-        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-user-plus" style="color: var(--accent-red); margin-left: 8px;"></i> آلية وشروط الانتساب إلى الفرقة</h3>
-        <ol style="color: var(--text-muted); line-height: 2; font-size: 0.98rem; padding-right: 20px;">
-          <li>تقديم طلب انتساب رسمي عبر استمارة التسجيل المعتمدة لدى المساعد الإداري.</li>
-          <li>اجتياز اختبار أو مقابلة قبول يحددها رئيس مجلس الإدارة.</li>
-          <li>التوقيع على تعهد صريح بالالتزام بالنظام الداخلي ومدونة قواعد السلوك.</li>
-          <li>تسديد قسط الشهر الأول عند القبول (يصنف المنتسب كـ "عضو جديد" لمدة 6 أشهر أولى).</li>
-        </ol>
-      </div>
+    <div class="container-inner" style="padding: 2rem 1.5rem;">
+      <h2 class="section-title">التطوع والانتساب</h2>
+      <p style="text-align: center; color: var(--text-muted); max-width: 700px; margin: 0 auto 2.5rem;">
+        مشروع نبض مفتوح دائماً لضم أعضاء جدد وشركاء ومتطوعين يؤمنون بقوة المسرح كأداة للتعبير المجتمعي.
+      </p>
 
-      <!-- LinkedIn Careers -->
-      <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 2rem; text-align: center; margin-bottom: 2.5rem;">
-        <i class="fa-brands fa-linkedin" style="font-size: 3.5rem; color: #0077b5; margin-bottom: 1rem;"></i>
-        <h3 style="color: var(--paper-beige); font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800;">تابعونا لفرص التطوع والوظائف على LinkedIn</h3>
-        <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem;">
-          يتم الإعلان عن الفرص الشاغرة في الفريق الإعلامي، العلاقات العامة، والمهام التنفيذية والتطوعية عبر صفحتنا الرسمية:
-        </p>
-        <a href="https://linkedin.com/company/nabd-theatre-project/" target="_blank" class="btn btn-red">
-          <i class="fa-brands fa-linkedin"></i> زيارة صفحة LinkedIn
-        </a>
-      </div>
-
-      <!-- Direct Channels -->
-      <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); padding: 2rem;">
-        <h3 style="color: var(--paper-beige); font-size: 1.3rem; margin-bottom: 1.5rem; text-align: center; font-weight: 800;">قنوات التواصل المباشر</h3>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
-          <a href="https://wa.me/963992467272" target="_blank" style="text-decoration: none; color: var(--paper-beige); background: rgba(255,255,255,0.03); padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color);">
-            <i class="fa-brands fa-whatsapp" style="font-size: 1.8rem; color: #25D366; margin-bottom: 8px;"></i>
-            <div style="font-weight: 700;">واتساب المباشر</div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">+963 992467272</div>
-          </a>
-
-          <a href="https://facebook.com/NabdProject" target="_blank" style="text-decoration: none; color: var(--paper-beige); background: rgba(255,255,255,0.03); padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color);">
-            <i class="fa-brands fa-facebook" style="font-size: 1.8rem; color: #1877F2; margin-bottom: 8px;"></i>
-            <div style="font-weight: 700;">فيسبوك</div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">NabdProject</div>
-          </a>
-
-          <a href="https://instagram.com/nabd_project" target="_blank" style="text-decoration: none; color: var(--paper-beige); background: rgba(255,255,255,0.03); padding: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color);">
-            <i class="fa-brands fa-instagram" style="font-size: 1.8rem; color: #E4405F; margin-bottom: 8px;"></i>
-            <div style="font-weight: 700;">إنستغرام</div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">@nabd_project</div>
-          </a>
+      <div class="about-cards-grid">
+        <div class="about-box" style="border-right: 4px solid var(--accent-red);">
+          <h4><i class="fa-solid fa-masks-theater"></i> الانتساب للفرقة</h4>
+          <p style="color: var(--text-muted); font-size: 0.98rem; line-height: 1.8;">
+            انضمّ إلى المسارات التدريبية والتفاعلية للفرقة، وطوّر مهاراتك التمثيلية عبر تدريبات دورية (3 أيام أسبوعياً) وورشات متخصصة تؤهلك للمشاركة في عروض المشروع.
+          </p>
         </div>
+
+        <div class="about-box" style="border-right: 4px solid var(--accent-blue);">
+          <h4><i class="fa-solid fa-hands-helping"></i> التطوع الفني والإداري</h4>
+          <p style="color: var(--text-muted); font-size: 0.98rem; line-height: 1.8;">
+            فرص تطوع بعيداً عن خشبة المسرح: إدارة، تصوير وتوثيق، دعم لوجستي، تصميم وسائط، وتنسيق فعاليات — كل خبرة يمكن أن تخدم رسالة المشروع.
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
+        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-list-check" style="color: var(--accent-red); margin-left: 8px;"></i> كيف تنضم؟</h3>
+        <ul style="list-style: none; color: var(--text-muted); line-height: 2; font-size: 1rem;">
+          <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> تواصل معنا عبر الواتساب أو الإيميل وأخبرنا باهتمامك (تمثيل، تطوع فني، تطوع إداري).</li>
+          <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> سيتم ترتيب لقاء تعارفي لمناقشة توقعاتك وتوقعات الفرقة.</li>
+          <li><i class="fa-solid fa-check" style="color: var(--accent-blue); margin-left: 10px;"></i> الالتزام بمدونة قواعد السلوك والمساحة الآمنة الخاصة بالمشروع شرط أساسي للانضمام.</li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; margin-top: 2.5rem; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <a href="https://wa.me/963992467272" target="_blank" class="btn btn-red"><i class="fa-brands fa-whatsapp"></i> تواصل معنا عبر الواتساب</a>
+        <a href="mailto:info@nabd-theatre.com" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> راسلنا عبر الإيميل</a>
       </div>
     </div>
   </section>
@@ -1144,7 +1422,7 @@
     <div class="footer-content">
       <div class="footer-col">
         <h5>مشروع نبض المسرحي</h5>
-        <p>مبادرة مسرحية مجتمعية قائمة على النظام الداخلي المعتمد من جرمانا - سوريا.</p>
+        <p>مبادرة مسرحية مجتمعية</p>
         <p style="color: var(--accent-red); font-weight: 700; margin-top: 10px;">كل نبضة تخبر قصة</p>
       </div>
 
@@ -1156,25 +1434,28 @@
       </div>
 
       <div class="footer-col">
-        <h5>التواصل والتراخيص</h5>
-        <p><i class="fa-brands fa-whatsapp"></i> واتساب: +963 992467272</p>
-        <p><i class="fa-solid fa-globe"></i> الموقع: nabd-theatre.com</p>
+        <h5>التواصل</h5>
+        <p><i class="fa-brands fa-whatsapp"></i> واتساب: <span dir="ltr" style="unicode-bidi: embed;">+963992467272</span></p>
+        <p><i class="fa-solid fa-envelope"></i> إيميل: info@nabd-theatre.com</p>
         <p><i class="fa-solid fa-location-dot"></i> المقر الرئيسي: جرمانا - سوريا</p>
       </div>
     </div>
 
     <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
-      جميع الحقوق محفوظة © مشروع نبض المسرحي المستقل nabd-theatre.com
+      جميع الحقوق محفوظة © مشروع نبض المسرحي المستقل 2026
     </div>
   </footer>
 
   <!-- Lightbox Window -->
   <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox()">
     <span class="lightbox-close">&times;</span>
-    <img class="lightbox-content" id="lightbox-img" src="" alt="صورة مكبرة">
+    <button type="button" class="lightbox-nav prev" id="lightbox-prev" onclick="event.stopPropagation(); shiftLightbox(-1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="صورة مكبرة" onclick="event.stopPropagation()">
+    <button type="button" class="lightbox-nav next" id="lightbox-next" onclick="event.stopPropagation(); shiftLightbox(1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
   </div>
 
   <script>
+    // دالة التنقل بين صفحات الموقع الرئيسية
     function switchPage(pageId) {
       const pages = document.querySelectorAll('.page-section');
       pages.forEach(page => page.classList.remove('active'));
@@ -1184,9 +1465,9 @@
         targetPage.classList.add('active');
       }
 
-      const navLinks = document.querySelectorAll('#main-nav ul li a');
+      // تحديث زر القائمة المحددة
+      const navLinks = document.querySelectorAll('nav ul li a');
       navLinks.forEach(link => link.classList.remove('active'));
-
       const activeNav = document.getElementById('nav-' + pageId);
       if(activeNav) {
         activeNav.classList.add('active');
@@ -1195,6 +1476,24 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // دالة التنقل بين تبويبات معرض الوسائط (صور / يوتيوب / إنستغرام / فيسبوك)
+    function switchMediaTab(tabName) {
+      const tabs = document.querySelectorAll('.media-tab-content');
+      tabs.forEach(tab => tab.style.display = 'none');
+
+      const activeTab = document.getElementById('tab-' + tabName);
+      if(activeTab) {
+        activeTab.style.display = 'block';
+      }
+
+      if (window.event && window.event.currentTarget) {
+        const btns = window.event.currentTarget.closest('.filter-bar').querySelectorAll('.filter-btn');
+        btns.forEach(btn => btn.classList.remove('active'));
+        window.event.currentTarget.classList.add('active');
+      }
+    }
+
+    // القائمة التفاعلية للموبايل
     function toggleMobileNav() {
       const nav = document.getElementById('main-nav');
       if (nav.style.display === 'block') {
@@ -1204,11 +1503,12 @@
       }
     }
 
+    // تصفية معرض الصور حسب الفئة
     function filterGallery(category) {
-      const filterBtns = document.querySelectorAll('.filter-btn');
+      const filterBtns = document.querySelectorAll('#tab-photos .filter-btn');
       filterBtns.forEach(btn => btn.classList.remove('active'));
-      if (event && event.target) {
-        event.target.classList.add('active');
+      if (window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('active');
       }
 
       const items = document.querySelectorAll('.gallery-item');
@@ -1221,11 +1521,185 @@
       });
     }
 
+    const galleries = {
+      alberto: [
+        'images/alberto/01.png',
+        'images/alberto/02.png',
+        'images/alberto/03.png',
+        'images/alberto/04.png',
+        'images/alberto/05.png',
+        'images/alberto/06.png',
+        'images/alberto/07.png',
+        'images/alberto/08.png',
+        'images/alberto/09.png',
+        'images/alberto/10.png'
+      ],
+      eteraf: [
+        'images/eteraf/01.png',
+        'images/eteraf/02.png',
+        'images/eteraf/03.png',
+        'images/eteraf/04.png',
+        'images/eteraf/05.png',
+        'images/eteraf/06.png',
+        'images/eteraf/07.png',
+        'images/eteraf/08.png',
+        'images/eteraf/09.png',
+        'images/eteraf/10.png'
+      ],
+      jaramana: [
+        'images/jaramana/01.png',
+        'images/jaramana/02.png',
+        'images/jaramana/03.png',
+        'images/jaramana/04.png',
+        'images/jaramana/05.png',
+        'images/jaramana/06.png',
+        'images/jaramana/07.png',
+        'images/jaramana/08.png',
+        'images/jaramana/09.png',
+        'images/jaramana/10.png'
+      ],
+      masarat: [
+        'images/masarat/01.png',
+        'images/masarat/02.png',
+        'images/masarat/03.png',
+        'images/masarat/04.png',
+        'images/masarat/05.png',
+        'images/masarat/06.png',
+        'images/masarat/07.png',
+        'images/masarat/08.png',
+        'images/masarat/09.png',
+        'images/masarat/10.png'
+      ],
+      waqf: [
+        'images/waqf/01.png',
+        'images/waqf/02.png',
+        'images/waqf/03.png',
+        'images/waqf/04.png',
+        'images/waqf/05.png',
+        'images/waqf/06.png',
+        'images/waqf/07.png',
+        'images/waqf/08.png',
+        'images/waqf/09.png',
+        'images/waqf/10.png'
+      ],
+      waqf2: [
+        'images/waqf-2/01.png',
+        'images/waqf-2/02.png',
+        'images/waqf-2/03.png',
+        'images/waqf-2/04.png',
+        'images/waqf-2/05.png',
+        'images/waqf-2/06.png',
+        'images/waqf-2/07.png',
+        'images/waqf-2/08.png',
+        'images/waqf-2/09.png',
+        'images/waqf-2/10.png'
+      ],
+      waqf3: [
+        'images/waqf-3/01.png',
+        'images/waqf-3/02.png',
+        'images/waqf-3/03.png',
+        'images/waqf-3/04.png',
+        'images/waqf-3/05.png',
+        'images/waqf-3/06.png',
+        'images/waqf-3/07.png',
+        'images/waqf-3/08.png',
+        'images/waqf-3/09.png',
+        'images/waqf-3/10.png'
+      ]
+    };
+
+    const carouselState = { alberto: 0, eteraf: 0, jaramana: 0, masarat: 0, waqf: 0, waqf2: 0, waqf3: 0 };
+    let lightboxGallery = null;
+    let lightboxIndex = 0;
+
+    function renderCarousel(id) {
+      const root = document.querySelector('[data-carousel="' + id + '"]');
+      if (!root) return;
+      const imgs = root.querySelectorAll('.carousel-track img');
+      const index = carouselState[id] || 0;
+      imgs.forEach((img, i) => img.classList.toggle('active', i === index));
+
+      const dotsBox = document.querySelector('[data-dots="' + id + '"]');
+      if (dotsBox && dotsBox.childElementCount !== imgs.length) {
+        dotsBox.innerHTML = '';
+        imgs.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.addEventListener('click', function (e) {
+            e.stopPropagation();
+            carouselState[id] = i;
+            renderCarousel(id);
+          });
+          dotsBox.appendChild(dot);
+        });
+      }
+      if (dotsBox) {
+        Array.from(dotsBox.children).forEach((dot, i) => dot.classList.toggle('active', i === index));
+      }
+    }
+
+    function shiftCarousel(id, dir) {
+      const total = galleries[id].length;
+      carouselState[id] = (carouselState[id] + dir + total) % total;
+      renderCarousel(id);
+    }
+
     function openLightbox(imgUrl) {
+      lightboxGallery = null;
+      document.getElementById('lightbox-prev').classList.remove('visible');
+      document.getElementById('lightbox-next').classList.remove('visible');
       const modal = document.getElementById('lightbox-modal');
-      const img = document.getElementById('lightbox-img');
-      img.src = imgUrl;
+      document.getElementById('lightbox-img').src = imgUrl;
       modal.classList.add('active');
+    }
+
+    function openCarouselLightbox(galleryId) {
+      lightboxGallery = galleries[galleryId];
+      lightboxIndex = carouselState[galleryId] || 0;
+      document.getElementById('lightbox-prev').classList.add('visible');
+      document.getElementById('lightbox-next').classList.add('visible');
+      document.getElementById('lightbox-img').src = lightboxGallery[lightboxIndex];
+      document.getElementById('lightbox-modal').classList.add('active');
+    }
+
+    function shiftLightbox(dir) {
+      if (!lightboxGallery) return;
+      lightboxIndex = (lightboxIndex + dir + lightboxGallery.length) % lightboxGallery.length;
+      document.getElementById('lightbox-img').src = lightboxGallery[lightboxIndex];
+    }
+
+    Object.keys(galleries).forEach(renderCarousel);
+    setInterval(function () {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal && modal.classList.contains('active')) return;
+      Object.keys(galleries).forEach(function (id) { shiftCarousel(id, 1); });
+    }, 4000);
+
+    document.addEventListener('keydown', function (e) {
+      const modal = document.getElementById('lightbox-modal');
+      if (!modal.classList.contains('active') || !lightboxGallery) return;
+      if (e.key === 'ArrowRight') shiftLightbox(-1);
+      if (e.key === 'ArrowLeft') shiftLightbox(1);
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // تشغيل فيديو اليوتيوب داخل الصفحة
+    // ملاحظة: يوتيوب يرفض التشغيل المدمج إذا فُتحت الصفحة مباشرة من القرص عبر file:// (خطأ 153)
+    function playYoutube(videoId) {
+      const box = document.getElementById('youtube-player-box');
+      if (!box) return;
+
+      box.style.cursor = 'default';
+      box.onclick = null;
+      box.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0" ' +
+        'style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;" ' +
+        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+        'allowfullscreen title="فيديو مشروع نبض المسرحي"></iframe>';
+
+      const notice = document.getElementById('youtube-local-notice');
+      if (notice && window.location.protocol === 'file:') {
+        notice.style.display = 'block';
+      }
     }
 
     function closeLightbox() {
