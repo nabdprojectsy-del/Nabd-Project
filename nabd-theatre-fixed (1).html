@@ -460,13 +460,85 @@
       transition: transform 0.5s ease;
     }
 
-    .gallery-item:hover img {
+    .gallery-item:hover > img {
       transform: scale(1.08);
+    }
+
+    .gallery-carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .gallery-carousel .carousel-track img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+    }
+
+    .gallery-carousel .carousel-track img.active {
+      opacity: 1;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(27, 21, 18, 0.72);
+      color: var(--paper-beige);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .carousel-btn:hover {
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    .carousel-btn.prev { right: 10px; }
+    .carousel-btn.next { left: 10px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      gap: 6px;
+    }
+
+    .carousel-dots button {
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background: rgba(237, 227, 208, 0.4);
+      cursor: pointer;
+    }
+
+    .carousel-dots button.active {
+      background: var(--accent-red);
     }
 
     .gallery-overlay {
       position: absolute;
       inset: 0;
+      z-index: 2;
       background: linear-gradient(to top, rgba(27,21,18,0.9) 0%, transparent 70%);
       display: flex;
       flex-direction: column;
@@ -474,6 +546,7 @@
       padding: 15px;
       opacity: 0;
       transition: opacity 0.3s ease;
+      pointer-events: none;
     }
 
     .gallery-item:hover .gallery-overlay {
@@ -690,7 +763,29 @@
       color: #fff;
       font-size: 2rem;
       cursor: pointer;
+      z-index: 6;
     }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 6;
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(27, 21, 18, 0.75);
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: none;
+    }
+
+    .lightbox-nav.visible { display: flex; align-items: center; justify-content: center; }
+    .lightbox-nav.prev { right: 24px; }
+    .lightbox-nav.next { left: 24px; }
+    .lightbox-nav:hover { background: var(--accent-red); }
 
     /* Responsive */
     @media (max-width: 850px) {
@@ -895,37 +990,16 @@
         </ul>
       </div>
 
-      <!-- Team & Management Structure -->
-      <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
-        <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-sitemap" style="color: var(--accent-red); margin-left: 8px;"></i> الفرقة والإدارة</h3>
-        <table class="org-table">
-          <thead>
-            <tr>
-              <th>الاسم</th>
-              <th>الدور</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>أسامة سخية</td><td>المخرج العام</td></tr>
-            <tr><td>بهاء طربوش</td><td>مخرج مساعد</td></tr>
-            <tr><td>كارلا زيات</td><td>مسؤول لوجستي</td></tr>
-          </tbody>
-        </table>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">* هذا الجدول يعرض حالياً الأدوار الإدارية الأساسية المؤكدة فقط. زوّدوني بباقي الهيكل الإداري الكامل (مثلاً: الإدارة العامة، الإشراف الفني، إدارة الأعضاء...) لإضافته.</p>
-      </div>
-
       <!-- Partners Section -->
       <div style="margin-top: 2.5rem; background: var(--bg-card); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
         <h3 style="color: var(--paper-beige); font-size: 1.4rem; margin-bottom: 1.2rem; font-weight: 800;"><i class="fa-solid fa-handshake" style="color: var(--accent-red); margin-left: 8px;"></i> شركاؤنا</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">AKDN</div>
-          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">JRS</div>
-          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">IMC</div>
-          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">SARC</div>
-          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">مؤسسة الصالح للتنمية</div>
-          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">الغرفة الفتية</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">نادي أوم لليوغا</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">بيت ألبيرتو اليسوعي</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">مركز الناصر للتدريب</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">شركة زوادا</div>
+          <div style="background: #211915; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; text-align: center; color: var(--text-muted); font-weight: 700;">شركة كنزة</div>
         </div>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">* استعملت أسماء الشركاء بالنص فقط لأنه ما في شعارات (لوغوهات) مرفوعة لدي. ابعتيلي الشعارات إذا بدك أستبدل هالبطاقات بيها.</p>
       </div>
 
       <!-- Code of Conduct & Safe Space -->
@@ -1025,36 +1099,100 @@
         </div>
 
         <div class="gallery-grid" id="gallery-container">
-        <div class="gallery-item shows" onclick="openLightbox('https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80" alt="عرض بيت ألبيرتو">
+        <div class="gallery-item shows" onclick="openCarouselLightbox('alberto')">
+          <div class="gallery-carousel" data-carousel="alberto">
+            <div class="carousel-track">
+              <img class="active" src="images/alberto/01.png" alt="مسرح بيت ألبيرتو 1">
+              <img src="images/alberto/02.png" alt="مسرح بيت ألبيرتو 2">
+              <img src="images/alberto/03.png" alt="مسرح بيت ألبيرتو 3">
+              <img src="images/alberto/04.png" alt="مسرح بيت ألبيرتو 4">
+              <img src="images/alberto/05.png" alt="مسرح بيت ألبيرتو 5">
+              <img src="images/alberto/06.png" alt="مسرح بيت ألبيرتو 6">
+              <img src="images/alberto/07.png" alt="مسرح بيت ألبيرتو 7">
+              <img src="images/alberto/08.png" alt="مسرح بيت ألبيرتو 8">
+              <img src="images/alberto/09.png" alt="مسرح بيت ألبيرتو 9">
+              <img src="images/alberto/10.png" alt="مسرح بيت ألبيرتو 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">كواليس العروض</span>
             <span class="gallery-title">مسرح بيت ألبيرتو - قعدة مونولوجات وبيت مين؟</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('alberto', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('alberto', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="alberto"></div>
         </div>
 
-        <div class="gallery-item shows" onclick="openLightbox('https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=600&q=80" alt="مسرح الحمراء">
+        <div class="gallery-item shows" onclick="openCarouselLightbox('eteraf')">
+          <div class="gallery-carousel" data-carousel="eteraf">
+            <div class="carousel-track">
+              <img class="active" src="images/eteraf/01.png" alt="اعتراف مؤجل 1">
+              <img src="images/eteraf/02.png" alt="اعتراف مؤجل 2">
+              <img src="images/eteraf/03.png" alt="اعتراف مؤجل 3">
+              <img src="images/eteraf/04.png" alt="اعتراف مؤجل 4">
+              <img src="images/eteraf/05.png" alt="اعتراف مؤجل 5">
+              <img src="images/eteraf/06.png" alt="اعتراف مؤجل 6">
+              <img src="images/eteraf/07.png" alt="اعتراف مؤجل 7">
+              <img src="images/eteraf/08.png" alt="اعتراف مؤجل 8">
+              <img src="images/eteraf/09.png" alt="اعتراف مؤجل 9">
+              <img src="images/eteraf/10.png" alt="اعتراف مؤجل 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">كواليس العروض</span>
             <span class="gallery-title">مسرح الحمراء بدمشق - اعتراف مؤجل</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('eteraf', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('eteraf', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="eteraf"></div>
         </div>
 
-        <div class="gallery-item kids" onclick="openLightbox('https://images.unsplash.com/photo-1472162072142-d544e73eebfb?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1472162072142-d544e73eebfb?auto=format&fit=crop&w=600&q=80" alt="فعاليات الأطفال بجرمانا">
+        <div class="gallery-item kids" onclick="openCarouselLightbox('jaramana')">
+          <div class="gallery-carousel" data-carousel="jaramana">
+            <div class="carousel-track">
+              <img class="active" src="images/jaramana/01.png" alt="فعاليات جرمانا 1">
+              <img src="images/jaramana/02.png" alt="فعاليات جرمانا 2">
+              <img src="images/jaramana/03.png" alt="فعاليات جرمانا 3">
+              <img src="images/jaramana/04.png" alt="فعاليات جرمانا 4">
+              <img src="images/jaramana/05.png" alt="فعاليات جرمانا 5">
+              <img src="images/jaramana/06.png" alt="فعاليات جرمانا 6">
+              <img src="images/jaramana/07.png" alt="فعاليات جرمانا 7">
+              <img src="images/jaramana/08.png" alt="فعاليات جرمانا 8">
+              <img src="images/jaramana/09.png" alt="فعاليات جرمانا 9">
+              <img src="images/jaramana/10.png" alt="فعاليات جرمانا 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">عروض الأطفال</span>
             <span class="gallery-title">المركز الثقافي في جرمانا</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('jaramana', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('jaramana', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="jaramana"></div>
         </div>
 
-        <div class="gallery-item rehearsals" onclick="openLightbox('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1000&q=80')">
-          <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="ورشة الارتجال">
+        <div class="gallery-item rehearsals" onclick="openCarouselLightbox('masarat')">
+          <div class="gallery-carousel" data-carousel="masarat">
+            <div class="carousel-track">
+              <img class="active" src="images/masarat/01.png" alt="تمارين المسارات التفاعلية 1">
+              <img src="images/masarat/02.png" alt="تمارين المسارات التفاعلية 2">
+              <img src="images/masarat/03.png" alt="تمارين المسارات التفاعلية 3">
+              <img src="images/masarat/04.png" alt="تمارين المسارات التفاعلية 4">
+              <img src="images/masarat/05.png" alt="تمارين المسارات التفاعلية 5">
+              <img src="images/masarat/06.png" alt="تمارين المسارات التفاعلية 6">
+              <img src="images/masarat/07.png" alt="تمارين المسارات التفاعلية 7">
+              <img src="images/masarat/08.png" alt="تمارين المسارات التفاعلية 8">
+              <img src="images/masarat/09.png" alt="تمارين المسارات التفاعلية 9">
+              <img src="images/masarat/10.png" alt="تمارين المسارات التفاعلية 10">
+            </div>
+          </div>
           <div class="gallery-overlay">
             <span class="gallery-cat">التدريبات والورشات</span>
             <span class="gallery-title">تمارين المسارات التفاعلية</span>
           </div>
+          <button type="button" class="carousel-btn prev" onclick="event.stopPropagation(); shiftCarousel('masarat', -1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+          <button type="button" class="carousel-btn next" onclick="event.stopPropagation(); shiftCarousel('masarat', 1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-dots" data-dots="masarat"></div>
         </div>
 
         <div class="gallery-item kids" onclick="openLightbox('https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?auto=format&fit=crop&w=1000&q=80')">
@@ -1064,43 +1202,25 @@
             <span class="gallery-title">صالة الوقف - جرمانا</span>
           </div>
         </div>
+        </div>
       </div>
 
       <div id="tab-youtube" class="media-tab-content" style="display: none;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
-          <!-- YouTube Video Card 1 -->
-          <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); overflow: hidden;">
-            <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-              <iframe src="https://www.youtube.com/embed/vfMpCWcgEDk" style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen title="ليش لازم تجرب مسار المسرح التفاعلي"></iframe>
-            </div>
-            <div style="padding: 1.2rem;">
-              <h4 style="color: var(--paper-beige); font-weight: 700; margin-bottom: 8px;">ليش لازم تجرب مسار المسرح التفاعلي مع نبض؟</h4>
-              <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 12px;">فيديو تفاعلي يوضح أهمية ورشات المسرح التفاعلي وصوت المشاركين وتجاربهم مع المشروع.</p>
-              <a href="https://www.youtube.com/watch?v=vfMpCWcgEDk" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; padding: 6px 12px; width: 100%; justify-content: center;">
-                <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> المشاهدة المباشرة على YouTube
-              </a>
+        <div style="max-width: 900px; margin: 0 auto; background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); overflow: hidden;">
+          <div id="youtube-player-box" style="position: relative; padding-bottom: 56.25%; height: 0; cursor: pointer;" onclick="playYoutube('TOsh3loUwSU')">
+            <img src="https://img.youtube.com/vi/TOsh3loUwSU/hqdefault.jpg" alt="فيديو مشروع نبض المسرحي" style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+            <div style="position: absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background: rgba(27, 21, 18, 0.35);">
+              <i class="fa-brands fa-youtube" style="font-size: 4rem; color: #ff0000;"></i>
             </div>
           </div>
-
-          <!-- YouTube Video Card 2 -->
-          <div style="background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); overflow: hidden;">
-            <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-              <iframe src="https://www.youtube.com/embed/WL2Hy1ZragA" style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen title="تغطية مشروع نبض المسرحي"></iframe>
-            </div>
-            <div style="padding: 1.2rem;">
-              <h4 style="color: var(--paper-beige); font-weight: 700; margin-bottom: 8px;">تغطية وتقارير عروض مشروع نبض</h4>
-              <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 12px;">تقرير إعلامي وثائقي يسلط الضوء على إعادة الحياة لخشبة المسرح وعروض المشروع.</p>
-              <a href="https://www.youtube.com/watch?v=WL2Hy1ZragA" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; padding: 6px 12px; width: 100%; justify-content: center;">
-                <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> المشاهدة المباشرة على YouTube
-              </a>
-            </div>
+          <div style="padding: 1.2rem; text-align: center;">
+            <p id="youtube-local-notice" style="display: none; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.8rem;">
+              * التشغيل داخل الصفحة يحتاج فتح الموقع عبر خادم (http) وليس من الملف مباشرة.
+            </p>
+            <a href="https://youtu.be/TOsh3loUwSU" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; padding: 6px 12px; justify-content: center;">
+              <i class="fa-brands fa-youtube" style="color: #ff0000;"></i> المشاهدة المباشرة على YouTube
+            </a>
           </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 2rem;">
-          <a href="https://youtube.com/@nabdproject" target="_blank" class="btn btn-red">
-            <i class="fa-brands fa-youtube"></i> زيارة القناة الرسمية على YouTube
-          </a>
         </div>
       </div>
 
@@ -1272,7 +1392,9 @@
   <!-- Lightbox Window -->
   <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox()">
     <span class="lightbox-close">&times;</span>
-    <img class="lightbox-content" id="lightbox-img" src="" alt="صورة مكبرة">
+    <button type="button" class="lightbox-nav prev" id="lightbox-prev" onclick="event.stopPropagation(); shiftLightbox(-1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="صورة مكبرة" onclick="event.stopPropagation()">
+    <button type="button" class="lightbox-nav next" id="lightbox-next" onclick="event.stopPropagation(); shiftLightbox(1)" aria-label="التالي"><i class="fa-solid fa-chevron-left"></i></button>
   </div>
 
   <script>
@@ -1342,12 +1464,149 @@
       });
     }
 
-    // تكبير الصور
+    const galleries = {
+      alberto: [
+        'images/alberto/01.png',
+        'images/alberto/02.png',
+        'images/alberto/03.png',
+        'images/alberto/04.png',
+        'images/alberto/05.png',
+        'images/alberto/06.png',
+        'images/alberto/07.png',
+        'images/alberto/08.png',
+        'images/alberto/09.png',
+        'images/alberto/10.png'
+      ],
+      eteraf: [
+        'images/eteraf/01.png',
+        'images/eteraf/02.png',
+        'images/eteraf/03.png',
+        'images/eteraf/04.png',
+        'images/eteraf/05.png',
+        'images/eteraf/06.png',
+        'images/eteraf/07.png',
+        'images/eteraf/08.png',
+        'images/eteraf/09.png',
+        'images/eteraf/10.png'
+      ],
+      jaramana: [
+        'images/jaramana/01.png',
+        'images/jaramana/02.png',
+        'images/jaramana/03.png',
+        'images/jaramana/04.png',
+        'images/jaramana/05.png',
+        'images/jaramana/06.png',
+        'images/jaramana/07.png',
+        'images/jaramana/08.png',
+        'images/jaramana/09.png',
+        'images/jaramana/10.png'
+      ],
+      masarat: [
+        'images/masarat/01.png',
+        'images/masarat/02.png',
+        'images/masarat/03.png',
+        'images/masarat/04.png',
+        'images/masarat/05.png',
+        'images/masarat/06.png',
+        'images/masarat/07.png',
+        'images/masarat/08.png',
+        'images/masarat/09.png',
+        'images/masarat/10.png'
+      ]
+    };
+
+    const carouselState = { alberto: 0, eteraf: 0, jaramana: 0, masarat: 0 };
+    let lightboxGallery = null;
+    let lightboxIndex = 0;
+
+    function renderCarousel(id) {
+      const root = document.querySelector('[data-carousel="' + id + '"]');
+      if (!root) return;
+      const imgs = root.querySelectorAll('.carousel-track img');
+      const index = carouselState[id] || 0;
+      imgs.forEach((img, i) => img.classList.toggle('active', i === index));
+
+      const dotsBox = document.querySelector('[data-dots="' + id + '"]');
+      if (dotsBox && dotsBox.childElementCount !== imgs.length) {
+        dotsBox.innerHTML = '';
+        imgs.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.addEventListener('click', function (e) {
+            e.stopPropagation();
+            carouselState[id] = i;
+            renderCarousel(id);
+          });
+          dotsBox.appendChild(dot);
+        });
+      }
+      if (dotsBox) {
+        Array.from(dotsBox.children).forEach((dot, i) => dot.classList.toggle('active', i === index));
+      }
+    }
+
+    function shiftCarousel(id, dir) {
+      const total = galleries[id].length;
+      carouselState[id] = (carouselState[id] + dir + total) % total;
+      renderCarousel(id);
+    }
+
     function openLightbox(imgUrl) {
+      lightboxGallery = null;
+      document.getElementById('lightbox-prev').classList.remove('visible');
+      document.getElementById('lightbox-next').classList.remove('visible');
       const modal = document.getElementById('lightbox-modal');
-      const img = document.getElementById('lightbox-img');
-      img.src = imgUrl;
+      document.getElementById('lightbox-img').src = imgUrl;
       modal.classList.add('active');
+    }
+
+    function openCarouselLightbox(galleryId) {
+      lightboxGallery = galleries[galleryId];
+      lightboxIndex = carouselState[galleryId] || 0;
+      document.getElementById('lightbox-prev').classList.add('visible');
+      document.getElementById('lightbox-next').classList.add('visible');
+      document.getElementById('lightbox-img').src = lightboxGallery[lightboxIndex];
+      document.getElementById('lightbox-modal').classList.add('active');
+    }
+
+    function shiftLightbox(dir) {
+      if (!lightboxGallery) return;
+      lightboxIndex = (lightboxIndex + dir + lightboxGallery.length) % lightboxGallery.length;
+      document.getElementById('lightbox-img').src = lightboxGallery[lightboxIndex];
+    }
+
+    Object.keys(galleries).forEach(renderCarousel);
+    setInterval(function () {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal && modal.classList.contains('active')) return;
+      Object.keys(galleries).forEach(function (id) { shiftCarousel(id, 1); });
+    }, 4000);
+
+    document.addEventListener('keydown', function (e) {
+      const modal = document.getElementById('lightbox-modal');
+      if (!modal.classList.contains('active') || !lightboxGallery) return;
+      if (e.key === 'ArrowRight') shiftLightbox(-1);
+      if (e.key === 'ArrowLeft') shiftLightbox(1);
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // تشغيل فيديو اليوتيوب داخل الصفحة
+    // ملاحظة: يوتيوب يرفض التشغيل المدمج إذا فُتحت الصفحة مباشرة من القرص عبر file:// (خطأ 153)
+    function playYoutube(videoId) {
+      const box = document.getElementById('youtube-player-box');
+      if (!box) return;
+
+      box.style.cursor = 'default';
+      box.onclick = null;
+      box.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0" ' +
+        'style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;" ' +
+        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+        'allowfullscreen title="فيديو مشروع نبض المسرحي"></iframe>';
+
+      const notice = document.getElementById('youtube-local-notice');
+      if (notice && window.location.protocol === 'file:') {
+        notice.style.display = 'block';
+      }
     }
 
     function closeLightbox() {
