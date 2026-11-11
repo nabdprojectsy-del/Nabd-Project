@@ -485,6 +485,7 @@
     }
 
     .filter-btn {
+      display: inline-block;
       background: var(--bg-card);
       color: var(--paper-beige);
       border: 1px solid var(--border-color);
@@ -493,6 +494,7 @@
       cursor: pointer;
       font-family: var(--font-cairo);
       font-weight: 600;
+      text-decoration: none;
       transition: all 0.3s ease;
     }
 
@@ -938,18 +940,18 @@
 
   <header>
     <div class="nav-container">
-      <a href="#" class="logo-box" onclick="switchPage('home')" data-cursor-ref="e0">
+      <a href="#home" class="logo-box" data-cursor-ref="e0">
         <img class="logo-pulse-svg" src="images/logo-nabd.png" alt="شعار مشروع نبض المسرحي">
         <span class="slogan-tag">كل نبضة تخبر قصة</span>
       </a>
 
       <nav id="main-nav">
         <ul>
-          <li data-cursor-ref="e25"><a onclick="switchPage('home')" id="nav-home" class="active">الرئيسية</a></li>
-          <li data-cursor-ref="e26"><a onclick="switchPage('about')" id="nav-about">الرؤية والهدف</a></li>
-          <li data-cursor-ref="e27"><a onclick="switchPage('shows')" id="nav-shows">العروض والأعمال</a></li>
-          <li data-cursor-ref="e28"><a onclick="switchPage('gallery')" id="nav-gallery">معرض الأنشطة</a></li>
-          <li data-cursor-ref="e29"><a onclick="switchPage('careers')" id="nav-careers">التطوع والانتساب</a></li>
+          <li data-cursor-ref="e25"><a href="#home" id="nav-home" class="active">الرئيسية</a></li>
+          <li data-cursor-ref="e26"><a href="#about" id="nav-about">الرؤية والهدف</a></li>
+          <li data-cursor-ref="e27"><a href="#shows" id="nav-shows">العروض والأعمال</a></li>
+          <li data-cursor-ref="e28"><a href="#gallery" id="nav-gallery">معرض الأنشطة</a></li>
+          <li data-cursor-ref="e29"><a href="#careers" id="nav-careers">التطوع والانتساب</a></li>
         </ul>
       </nav>
 
@@ -995,22 +997,15 @@
         </div>      </div>
       <div class="show-info-box">
         <div>
-          <span class="badge-live"><i class="fa-solid fa-star"></i> العرض القادم في سلمية - 15/10</span>
+          <span class="badge-live"><i class="fa-solid fa-star"></i> أخر العروض</span>
           <h2 class="show-title" data-cursor-ref="e32">قعدة مونولوجات</h2>
           <div class="show-venue">
-            <i class="fa-solid fa-location-dot"></i> سينما سلمية - مدينة سلمية الثقافية
+            <i class="fa-solid fa-location-dot"></i> سينما سلمية
           </div>
           <p class="show-meta-details" data-cursor-ref="e33">
             <i class="fa-solid fa-calendar-days" style="color: var(--accent-blue);"></i> <strong>تاريخ العرض: 15/10</strong><br>
             تجربة مسرحية ناضجة مبنية على كلاسيكيات الأدب المسرحي العالمي (شيكسبير، تشيخوف، شيلر، تينيسي ويليامز، إبسن، وجان جيرودو). <strong>عُرِض مسبقاً بنجاح على خشبة مسرح بيت ألبيرتو</strong> ويُقدّم لجمهور سلمية.
           </p>
-
-          <div class="booking-notice-box">
-            <p data-cursor-ref="e34"><i class="fa-solid fa-ticket" style="color: var(--accent-red); margin-left: 5px;"></i> <strong>حجز التذاكر: </strong> يتم الحجز مباشرة وحصرياً لدى سينما سلمية</p>
-            <a href="https://www.facebook.com/cinema.salamieh/" target="_blank" class="btn btn-red" style="margin-top: 10px; font-size: 0.9rem; padding: 0.55rem 1.2rem;" data-cursor-ref="e15">
-              <i class="fa-brands fa-facebook"></i> صفحة سينما سلمية
-            </a>
-          </div>
         </div>
 
         <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -1023,18 +1018,6 @@
     </div>
 
     <!-- Monologues Characters & Cast Grid -->
-    <div class="cast-grid-section">
-      <div class="show-countdown" id="show-countdown" data-target="2026-10-15T19:00:00+03:00">
-        <p class="countdown-kicker" data-cursor-ref="e35"><i class="fa-solid fa-clock"></i> العد التنازلي لعرض سينما سلمية</p>
-        <p class="countdown-when" data-cursor-ref="e36">15 تشرين الأول 2026 — الساعة 19:00</p>
-        <div class="countdown-grid" id="countdown-grid">
-          <div class="countdown-unit"><span id="cd-days">15</span><small>أيام</small></div>
-          <div class="countdown-unit"><span id="cd-hours">03</span><small>ساعات</small></div>
-          <div class="countdown-unit"><span id="cd-minutes">00</span><small>دقائق</small></div>
-          <div class="countdown-unit"><span id="cd-seconds">04</span><small>ثوانٍ</small></div>
-        </div>
-        <p class="countdown-done" id="countdown-done">بدأ عرض «قعدة مونولوجات» في سينما سلمية</p>
-      </div>
       <h3 class="section-title" data-cursor-ref="e37">شخصيات  "قعدة مونولوجات"</h3>
       <div class="poster-3d-grid">
         <div class="cell-box"><span class="cell-role">سميرينوف</span><div class="cell-actor">إباء الحج</div></div>
@@ -1052,32 +1035,6 @@
       </div>
     </div>
 
-    <!-- Cultural Context: Salamieh & Cinema -->
-    <div class="cultural-section">
-      <div class="container-inner">
-        <div class="culture-grid">
-          <div class="culture-text">
-            <h3 data-cursor-ref="e38">سلمية .. منارة الفكر والمسرح</h3>
-            <p data-cursor-ref="e39">
-              تعتبر مدينة <strong>سلمية</strong> في سوريا واحدة من أبرز المنارات الثقافية والأدبية، حيث عُرِفت تاريخياً بوعيها الفكري المرتفع، وإنجابها لكبار الشعراء والأدباء وفي مقدمتهم الشاعر <em>محمد الماغوط</em>.
-            </p>
-            <p data-cursor-ref="e40">
-              تُمثّل <strong>سينما سلمية</strong> مركزاً تنويرياً احتضن أرقى العروض الفنية، واختيار مشروع "نبض" لتقديم عرض "قعدة مونولوجات" فيها هو تحية لهذا الجمهور الشغوف بالفن الأصيل.
-            </p>
-          </div>
-          <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
-            <h4 style="color: var(--paper-beige); margin-bottom: 1rem; font-weight: 700;" data-cursor-ref="e41"><i class="fa-solid fa-clapperboard" style="color: var(--accent-red);"></i> تفاصيل الحجز والعرض</h4>
-            <ul style="list-style: none; line-height: 2; color: var(--text-muted); font-size: 0.95rem;">
-              <li data-cursor-ref="e42"><strong style="color: var(--paper-beige);">التاريخ:</strong> 15/10</li>
-              <li data-cursor-ref="e43"><strong style="color: var(--paper-beige);">المكان:</strong> سينما سلمية - سوريا</li>
-              <li data-cursor-ref="e44"><strong style="color: var(--paper-beige);">طريقة الحجز:</strong> مباشرة عبر شباك تذاكر سينما سلمية</li>
-              <li data-cursor-ref="e45"><strong style="color: var(--paper-beige);">نوع العمل:</strong> عمل مسرحي كلاسيكي أصيل</li>
-              <li data-cursor-ref="e46"><strong style="color: var(--paper-beige);">إنتاج:</strong> مشروع نبض المسرحي المستقل</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- ==================== ABOUT, VISION & INTERNAL SYSTEM PAGE ==================== -->
@@ -1223,11 +1180,11 @@
         توثيق إعلامي شامل للمشاهد المسرحية، الفيديوهات التفاعلية، وكواليس التدريبات والعروض.
       </p>
 
-      <div class="filter-bar" style="margin-bottom: 2rem;">
-        <button class="filter-btn active" onclick="switchMediaTab('photos')"><i class="fa-solid fa-images"></i> معرض الصور</button>
-        <button class="filter-btn" onclick="switchMediaTab('youtube')"><i class="fa-brands fa-youtube" style="color:#ff0000;"></i> فيديوهات اليوتيوب</button>
-        <button class="filter-btn" onclick="switchMediaTab('instagram')"><i class="fa-brands fa-instagram" style="color:#E4405F;"></i> ريلات الإنستغرام</button>
-        <button class="filter-btn" onclick="switchMediaTab('facebook')"><i class="fa-brands fa-facebook" style="color:#1877F2;"></i> مقاطع الفيسبوك</button>
+      <div class="filter-bar" data-media-tabs style="margin-bottom: 2rem;">
+        <a href="#gallery/photos" class="filter-btn active" data-media="photos"><i class="fa-solid fa-images"></i> معرض الصور</a>
+        <a href="#gallery/youtube" class="filter-btn" data-media="youtube"><i class="fa-brands fa-youtube" style="color:#ff0000;"></i> فيديوهات اليوتيوب</a>
+        <a href="#gallery/instagram" class="filter-btn" data-media="instagram"><i class="fa-brands fa-instagram" style="color:#E4405F;"></i> ريلات الإنستغرام</a>
+        <a href="#gallery/facebook" class="filter-btn" data-media="facebook"><i class="fa-brands fa-facebook" style="color:#1877F2;"></i> مقاطع الفيسبوك</a>
       </div>
 
       <div id="tab-photos" class="media-tab-content">
@@ -1565,45 +1522,109 @@
   </div>
 
   <script>
-    // دالة التنقل بين صفحات الموقع الرئيسية
-    function switchPage(pageId) {
+    const SITE_PAGES = ['home', 'about', 'shows', 'gallery', 'careers'];
+    const MEDIA_TABS = ['photos', 'youtube', 'instagram', 'facebook'];
+
+    function readRoute() {
+      const raw = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+      if (!raw) {
+        return { pageId: 'home', mediaTab: 'photos' };
+      }
+
+      const parts = raw.split('/');
+      const pageId = parts[0];
+      if (SITE_PAGES.indexOf(pageId) === -1 || parts.length > 2) {
+        return null;
+      }
+      if (pageId !== 'gallery') {
+        return parts.length === 1 ? { pageId: pageId, mediaTab: 'photos' } : null;
+      }
+
+      const mediaTab = parts[1] || 'photos';
+      if (MEDIA_TABS.indexOf(mediaTab) === -1) {
+        return null;
+      }
+      return { pageId: 'gallery', mediaTab: mediaTab };
+    }
+
+    function showPage(pageId) {
       const pages = document.querySelectorAll('.page-section');
       pages.forEach(page => page.classList.remove('active'));
 
       const targetPage = document.getElementById('page-' + pageId);
-      if(targetPage) {
+      if (targetPage) {
         targetPage.classList.add('active');
       }
 
-      // تحديث زر القائمة المحددة
       const navLinks = document.querySelectorAll('nav ul li a');
       navLinks.forEach(link => link.classList.remove('active'));
       const activeNav = document.getElementById('nav-' + pageId);
-      if(activeNav) {
+      if (activeNav) {
         activeNav.classList.add('active');
       }
-
-      document.getElementById('main-nav').classList.remove('open');
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // دالة التنقل بين تبويبات معرض الوسائط (صور / يوتيوب / إنستغرام / فيسبوك)
-    function switchMediaTab(tabName) {
+    function showMediaTab(tabName) {
       const tabs = document.querySelectorAll('.media-tab-content');
-      tabs.forEach(tab => tab.style.display = 'none');
+      tabs.forEach(tab => { tab.style.display = 'none'; });
 
       const activeTab = document.getElementById('tab-' + tabName);
-      if(activeTab) {
+      if (activeTab) {
         activeTab.style.display = 'block';
       }
 
-      if (window.event && window.event.currentTarget) {
-        const btns = window.event.currentTarget.closest('.filter-bar').querySelectorAll('.filter-btn');
-        btns.forEach(btn => btn.classList.remove('active'));
-        window.event.currentTarget.classList.add('active');
-      }
+      document.querySelectorAll('[data-media]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-media') === tabName);
+      });
     }
+
+    function applyRoute(smooth) {
+      const route = readRoute();
+      if (!route) {
+        location.hash = '#home';
+        return;
+      }
+
+      showPage(route.pageId);
+      if (route.pageId === 'gallery') {
+        showMediaTab(route.mediaTab);
+      }
+
+      document.getElementById('main-nav').classList.remove('open');
+      window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+    }
+
+    function switchPage(pageId) {
+      if (SITE_PAGES.indexOf(pageId) === -1) return;
+      const next = '#' + pageId;
+      if (location.hash === next) {
+        applyRoute(true);
+        return;
+      }
+      location.hash = next;
+    }
+
+    function switchMediaTab(tabName) {
+      if (MEDIA_TABS.indexOf(tabName) === -1) return;
+      const next = '#gallery/' + tabName;
+      if (location.hash === next) {
+        applyRoute(true);
+        return;
+      }
+      location.hash = next;
+    }
+
+    window.addEventListener('hashchange', function () {
+      applyRoute(true);
+    });
+
+    document.querySelectorAll('#main-nav a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        document.getElementById('main-nav').classList.remove('open');
+      });
+    });
+
+    applyRoute(false);
 
     // القائمة التفاعلية للموبايل
     function toggleMobileNav() {
