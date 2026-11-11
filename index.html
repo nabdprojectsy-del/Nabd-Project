@@ -411,6 +411,10 @@
       border: 2px solid rgba(237, 227, 208, 0.2);
     }
 
+    .poster-3d-grid > :last-child {
+      grid-column: 2;
+    }
+
     .cell-box {
       background: #231b17;
       border: 1px solid rgba(237, 227, 208, 0.15);
@@ -418,10 +422,19 @@
       padding: 15px;
       text-align: center;
       transition: transform 0.3s ease;
+      width: 100%;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
     }
-    .cell-box:hover {
+    .cell-box:hover,
+    .cell-box:focus-visible {
       transform: translateY(-3px);
       border-color: var(--accent-blue);
+    }
+    .cell-box:focus-visible {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 2px;
     }
 
     .cell-role {
@@ -854,6 +867,111 @@
     .lightbox-nav.next { left: 24px; }
     .lightbox-nav:hover { background: var(--accent-red); }
 
+    .person-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      z-index: 2100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .person-modal.active { display: flex; }
+
+    .person-card {
+      position: relative;
+      width: min(520px, 100%);
+      max-height: min(85vh, 720px);
+      overflow: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-top: 4px solid var(--accent-red);
+      border-radius: 12px;
+      padding: 1.6rem 1.4rem 1.4rem;
+      text-align: right;
+    }
+
+    .person-close {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--paper-beige);
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      font-family: var(--font-cairo);
+    }
+
+    .person-close:hover { color: var(--accent-red); }
+
+    .person-kicker {
+      display: inline-block;
+      background: var(--paper-beige);
+      color: var(--bg-dark);
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 0.7rem;
+    }
+
+    .person-card h3 {
+      color: var(--paper-beige);
+      font-size: 1.55rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      overflow-wrap: break-word;
+    }
+
+    .person-fact {
+      display: grid;
+      grid-template-columns: minmax(6.2rem, 7.5rem) minmax(0, 1fr);
+      gap: 0.6rem;
+      padding: 0.55rem 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .person-fact dt {
+      color: var(--accent-blue);
+      font-weight: 700;
+      font-size: 0.9rem;
+      overflow-wrap: break-word;
+    }
+
+    .person-fact dd {
+      min-width: 0;
+      margin: 0;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+
+    .person-fact dd.is-pending { color: var(--text-muted); }
+
+    .person-note {
+      margin-top: 1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      font-size: 0.98rem;
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+
+    @media (max-width: 480px) {
+      .person-fact {
+        grid-template-columns: 1fr;
+        gap: 0.15rem;
+      }
+    }
+
     #faq {
       margin-top: 2.5rem;
     }
@@ -923,6 +1041,11 @@
       }
       .poster-3d-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+      .poster-3d-grid > :last-child {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc((100% - 15px) / 2);
       }
       .hero-title {
         font-size: 2.2rem;
@@ -1020,18 +1143,19 @@
     <!-- Monologues Characters & Cast Grid -->
       <h3 class="section-title" data-cursor-ref="e37">شخصيات  "قعدة مونولوجات"</h3>
       <div class="poster-3d-grid">
-        <div class="cell-box"><span class="cell-role">سميرينوف</span><div class="cell-actor">إباء الحج</div></div>
-        <div class="cell-box"><span class="cell-role">عطيل</span><div class="cell-actor">إلياس ظماط</div></div>
-        <div class="cell-box"><span class="cell-role">إيزابيل (شكسبير)</span><div class="cell-actor">آية أبو فاعور</div></div>
-        <div class="cell-box"><span class="cell-role">الليدي مكبث</span><div class="cell-actor">لارا الحلو</div></div>
-        <div class="cell-box"><span class="cell-role">الليدي ميلفورد</span><div class="cell-actor">لقاء الصالح</div></div>
-        <div class="cell-box"><span class="cell-role">إيزابيل (بين بين)</span><div class="cell-actor">جودي الصدي</div></div>
-        <div class="cell-box"><span class="cell-role">هاملت</span><div class="cell-actor">هادي شلش</div></div>
-        <div class="cell-box"><span class="cell-role">توم</span><div class="cell-actor">عمر أبو صالح</div></div>
-        <div class="cell-box"><span class="cell-role">نورا</span><div class="cell-actor">حنين دوارة</div></div>
-        <div class="cell-box"><span class="cell-role">مخرج مساعد</span><div class="cell-actor">بهاء طربوش</div></div>
-        <div class="cell-box"><span class="cell-role">المخرج</span><div class="cell-actor">أسامة سخية</div></div>
-        <div class="cell-box"><span class="cell-role">مسؤول لوجستي</span><div class="cell-actor">كارلا زيات</div></div>
+        <button type="button" class="cell-box" data-person="ibaa"><span class="cell-role">سميرينوف</span><div class="cell-actor">إباء الحج</div></button>
+        <button type="button" class="cell-box" data-person="elias"><span class="cell-role">عطيل</span><div class="cell-actor">إلياس ظماط</div></button>
+        <button type="button" class="cell-box" data-person="aya"><span class="cell-role">إيزابيل (شكسبير)</span><div class="cell-actor">آية أبو فاعور</div></button>
+        <button type="button" class="cell-box" data-person="lara"><span class="cell-role">الليدي مكبث</span><div class="cell-actor">لارا الحلو</div></button>
+        <button type="button" class="cell-box" data-person="liqaa"><span class="cell-role">الليدي ميلفورد</span><div class="cell-actor">لقاء الصالح</div></button>
+        <button type="button" class="cell-box" data-person="judy"><span class="cell-role">إيزابيل (بين بين)</span><div class="cell-actor">جودي الصدي</div></button>
+        <button type="button" class="cell-box" data-person="hadi"><span class="cell-role">هاملت</span><div class="cell-actor">هادي شلش</div></button>
+        <button type="button" class="cell-box" data-person="omar"><span class="cell-role">توم</span><div class="cell-actor">عمر أبو صالح</div></button>
+        <button type="button" class="cell-box" data-person="haneen"><span class="cell-role">نورا</span><div class="cell-actor">حنين دوارة</div></button>
+        <button type="button" class="cell-box" data-person="bahaa"><span class="cell-role">مخرج مساعد</span><div class="cell-actor">بهاء طربوش</div></button>
+        <button type="button" class="cell-box" data-person="inshirah"><span class="cell-role">عبير</span><div class="cell-actor">انشراح الصفدي</div></button>
+        <button type="button" class="cell-box" data-person="karla"><span class="cell-role">مسؤول لوجستي</span><div class="cell-actor">كارلا زيات</div></button>
+        <button type="button" class="cell-box" data-person="osama"><span class="cell-role">المخرج</span><div class="cell-actor">أسامة سخية</div></button>
       </div>
     </div>
 
@@ -1514,6 +1638,16 @@
   </footer>
 
   <!-- Lightbox Window -->
+  <div class="person-modal" id="person-modal" onclick="closePersonModal()">
+    <div class="person-card" role="dialog" aria-modal="true" aria-labelledby="person-name" onclick="event.stopPropagation()">
+      <button type="button" class="person-close" onclick="closePersonModal()" aria-label="إغلاق">×</button>
+      <span class="person-kicker" id="person-role"></span>
+      <h3 id="person-name"></h3>
+      <dl id="person-facts"></dl>
+      <p class="person-note" id="person-note"></p>
+    </div>
+  </div>
+
   <div class="lightbox-modal" id="lightbox-modal" onclick="closeLightbox()">
     <span class="lightbox-close">×</span>
     <button type="button" class="lightbox-nav prev" id="lightbox-prev" onclick="event.stopPropagation(); shiftLightbox(-1)" aria-label="السابق"><i class="fa-solid fa-chevron-right"></i></button>
@@ -1773,7 +1907,185 @@
       Object.keys(galleries).forEach(function (id) { shiftCarousel(id, 1); });
     }, 4000);
 
+    const PERSON_PENDING = 'يُستكمل لاحقاً';
+    const castProfiles = {
+      ibaa: {
+        name: 'إباء الحج',
+        role: 'سميرينوف',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: '«الدب» لأنطون تشيخوف',
+        note: 'يقدّم مونولوج سميرينوف من مسرحية تشيخوف القصيرة «الدب»، ضمن أمسية تجمع شخصيات من كلاسيكيات المسرح العالمي.'
+      },
+      elias: {
+        name: 'إلياس ظماط',
+        role: 'عطيل',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: '«عطيل» لوليم شكسبير',
+        note: 'يؤدي شخصية عطيل في مونولوج مستلهم من مأساة شكسبير، كما تُقدَّم داخل «قعدة مونولوجات».'
+      },
+      aya: {
+        name: 'آية أبو فاعور',
+        role: 'إيزابيل (شكسبير)',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: '«العين بالعين» لوليم شكسبير',
+        note: 'تؤدي إيزابيل في المقطع المنسوب إلى شكسبير، إلى جانب شخصيات كلاسيكية أخرى في الأمسية نفسها.'
+      },
+      lara: {
+        name: 'لارا الحلو',
+        role: 'الليدي مكبث',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: '«ماكبث» لوليم شكسبير',
+        note: 'تقدّم الليدي مكبث في مونولوج من مأساة شكسبير «ماكبث».'
+      },
+      liqaa: {
+        name: 'لقاء الصالح',
+        role: 'الليدي ميلفورد',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: '«دسيسة وحب» لفريدريش شيلر',
+        note: 'تؤدي الليدي ميلفورد من مسرحية شيلر «دسيسة وحب»، إحدى الكلاسيكيات التي يبني عليها العرض.'
+      },
+      judy: {
+        name: 'جودي الصدي',
+        role: 'إيزابيل (بين بين)',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: 'مقطع «بين بين» في الأمسية',
+        note: 'تؤدي إيزابيل في المقطع المعنون «بين بين» ضمن «قعدة مونولوجات».'
+      },
+      hadi: {
+        name: 'هادي شلش',
+        role: 'هاملت',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: '«هاملت» لوليم شكسبير',
+        note: 'يقدّم مونولوج هاملت من مأساة شكسبير داخل الأمسية.'
+      },
+      omar: {
+        name: 'عمر أبو صالح',
+        role: 'توم',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: '«الوحوش الزجاجية» لتينيسي ويليامز',
+        note: 'يؤدي شخصية توم في مونولوج مستلهم من «الوحوش الزجاجية» لتينيسي ويليامز.'
+      },
+      haneen: {
+        name: 'حنين دوارة',
+        role: 'نورا',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: '«بيت الدمية» لهنريك إبسن',
+        note: 'تؤدي نورا من مسرحية إبسن «بيت الدمية»، ضمن شخصيات الأمسية الكلاسيكية.'
+      },
+      bahaa: {
+        name: 'بهاء طربوش',
+        role: 'مخرج مساعد',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'مساعدة إخراج',
+        source: 'طاقم «قعدة مونولوجات»',
+        note: 'يرافق المخرج في التحضير والتدريبات ومتابعة سير العرض.'
+      },
+      inshirah: {
+        name: 'انشراح الصفدي',
+        role: 'عبير',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تمثيل ضمن عرض «قعدة مونولوجات»',
+        source: 'شخصية عبير ضمن «قعدة مونولوجات»',
+        note: 'تؤدي شخصية عبير ضمن «قعدة مونولوجات».'
+      },
+      karla: {
+        name: 'كارلا زيات',
+        role: 'مسؤول لوجستي',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'تنسيق لوجستي',
+        source: 'طاقم «قعدة مونولوجات»',
+        note: 'تتولى الترتيبات العملية المصاحبة للفريق والعرض.'
+      },
+      osama: {
+        name: 'أسامة سخية',
+        role: 'المخرج',
+        age: PERSON_PENDING,
+        study: PERSON_PENDING,
+        career: 'إخراج',
+        source: '«قعدة مونولوجات»',
+        note: 'مخرج العرض. قُدّم العمل سابقاً على خشبة مسرح بيت ألبيرتو، ويُعاد تقديمه لجمهور سينما سلمية.'
+      }
+    };
+
+    let personTrigger = null;
+
+    function openPersonModal(id, trigger) {
+      const person = castProfiles[id];
+      if (!person) return;
+      personTrigger = trigger || null;
+
+      document.getElementById('person-role').textContent = person.role;
+      document.getElementById('person-name').textContent = person.name;
+      document.getElementById('person-note').textContent = person.note;
+
+      const facts = document.getElementById('person-facts');
+      facts.replaceChildren();
+      [
+        ['الاسم الكامل', person.name],
+        ['الدور في العرض', person.role],
+        ['العمر', person.age],
+        ['الدراسة', person.study],
+        ['المهنة', person.career],
+        ['النص المسرحي', person.source]
+      ].forEach(function (pair) {
+        const row = document.createElement('div');
+        row.className = 'person-fact';
+        const label = document.createElement('dt');
+        label.textContent = pair[0];
+        const value = document.createElement('dd');
+        value.textContent = pair[1];
+        if (pair[1] === PERSON_PENDING) value.className = 'is-pending';
+        row.appendChild(label);
+        row.appendChild(value);
+        facts.appendChild(row);
+      });
+
+      const modal = document.getElementById('person-modal');
+      modal.classList.add('active');
+      modal.querySelector('.person-close').focus();
+    }
+
+    function closePersonModal() {
+      const modal = document.getElementById('person-modal');
+      if (!modal.classList.contains('active')) return;
+      modal.classList.remove('active');
+      if (personTrigger) personTrigger.focus();
+      personTrigger = null;
+    }
+
+    document.querySelectorAll('[data-person]').forEach(function (card) {
+      card.addEventListener('click', function () {
+        openPersonModal(card.getAttribute('data-person'), card);
+      });
+    });
+
     document.addEventListener('keydown', function (e) {
+      const personModal = document.getElementById('person-modal');
+      if (personModal.classList.contains('active')) {
+        if (e.key === 'Escape') closePersonModal();
+        return;
+      }
       const modal = document.getElementById('lightbox-modal');
       if (!modal.classList.contains('active') || !lightboxGallery) return;
       if (e.key === 'ArrowRight') shiftLightbox(-1);
